@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#F5F3EF">
+<title>毛球日记 · 养宠成长记录与社区</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#F5F3EF; --card:#fff; --ink:#2B2A28; --muted:#9A938B; --line:#EDE9E3;
+  --primary:#FF7A59; --primary-soft:#FFEFE9;
+  --green:#3FBF9F; --green-soft:#E8F7F2;
+  --blue:#5B9BFF; --blue-soft:#EAF1FF;
+  --purple:#9B8CFF; --purple-soft:#F0EDFF;
+}
+html,body{margin:0;padding:0;height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:#E9E5DF; color:var(--ink);
+  display:flex; justify-content:center; align-items:center;
+  -webkit-font-smoothing:antialiased;
+}
+.phone{
+  width:100%; max-width:430px; height:100dvh; max-height:100dvh;
+  background:var(--bg); display:flex; flex-direction:column;
+  overflow:hidden; position:relative;
+}
+@media(min-width:520px){
+  body{background:radial-gradient(1200px 600px at 50% 0%,#F3EFE9 0%,#E4DFD7 100%)}
+  .phone{border-radius:28px; height:92dvh; box-shadow:0 30px 80px rgba(60,45,30,.22),0 0 0 1px rgba(0,0,0,.04)}
+}
+/* ---------- topbar ---------- */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 16px 10px; flex:none;
+}
+.pet-chip{
+  display:flex; align-items:center; gap:10px; padding:5px 12px 5px 5px;
+  border-radius:999px; background:#fff; box-shadow:0 2px 12px rgba(90,70,50,.07);
+  cursor:pointer; border:none; font:inherit; color:inherit;
+}
+.pet-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary-soft);display:grid;place-items:center;font-size:21px;flex:none}
+.pet-meta{text-align:left;line-height:1.25}
+.pet-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:4px}
+.caret{font-size:10px;color:var(--muted)}
+.pet-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.icon-btn{
+  width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:#fff;
+  font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 6px 16px rgba(255,122,89,.4); transition:transform .15s;
+}
+.icon-btn:active{transform:scale(.92)}
+/* ---------- scroll area ---------- */
+main{flex:1; overflow-y:auto; overflow-x:hidden; padding:0 16px 24px; scroll-behavior:smooth}
+main::-webkit-scrollbar{display:none}
+/* ---------- tabbar ---------- */
+.tabbar{
+  flex:none; display:flex; background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px); border-top:1px solid var(--line);
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+.tab{
+  flex:1; border:none; background:none; display:flex; flex-direction:column;
+  align-items:center; gap:3px; color:#B5AEA6; font-size:10.5px; font-family:inherit;
+  padding:4px 0; cursor:pointer; transition:color .18s;
+}
+.tab svg{width:23px;height:23px;transition:transform .18s}
+.tab.active{color:var(--primary);font-weight:600}
+.tab.active svg{transform:translateY(-1px) scale(1.06)}
+/* ---------- generic ---------- */
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 14px rgba(90,70,50,.055)}
+.card h3{margin:0;font-size:15px;font-weight:700}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pill{font-size:11px;color:var(--muted);background:var(--bg);padding:3px 9px;border-radius:999px}
+.sec-title{font-size:13px;font-weight:700;color:var(--muted);margin:18px 2px 10px;letter-spacing:.3px}
+/* ---------- hero ---------- */
+.hero{
+  border-radius:20px; padding:18px; margin:4px 0 14px; color:#fff; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#FF9A76 0%,#FF7A59 48%,#F2634A 100%);
+  box-shadow:0 10px 26px rgba(255,122,89,.3);
+}
+.hero::after{content:"";position:absolute;right:-34px;top:-46px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.14)}
+.hero::before{content:"";position:absolute;right:36px;bottom:-56px;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.1)}
+.hero-row{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.hero-avatar{width:50px;height:50px;border-radius:16px;background:rgba(255,255,255,.24);display:grid;place-items:center;font-size:26px;flex:none}
+.hero-title{font-size:17px;font-weight:800;letter-spacing:.2px}
+.hero-title b{font-size:22px;margin:0 2px}
+.hero-sub{font-size:11.5px;opacity:.85;margin-top:3px}
+.stats{display:flex;gap:8px;margin-top:16px;position:relative;z-index:1}
+.stat{flex:1;background:rgba(255,255,255,.17);border-radius:12px;padding:9px 8px;text-align:center}
+.stat b{display:block;font-size:16px;font-weight:800}
+.stat span{font-size:10px;opacity:.86;display:block;margin-top:2px}
+/* ---------- chips ---------- */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;margin:0 -16px;padding-left:16px;padding-right:16px}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;border:1px solid var(--line);background:#fff;color:var(--muted);
+  font-size:12.5px;padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit;
+  transition:all .18s;
+}
+.chip.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+/* ---------- timeline ---------- */
+.tl-item{display:flex;gap:11px}
+.tl-rail{display:flex;flex-direction:column;align-items:center;width:34px;flex:none}
+.tl-dot{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 2px 8px rgba(90,70,50,.09);z-index:1;flex:none}
+.tl-line{flex:1;width:2px;background:var(--line);margin:-3px 0 0}
+.tl-body{flex:1;padding-bottom:16px;min-width:0}
+.tl-item:last-child .tl-body{padding-bottom:4px}
+.tl-item:last-child .tl-line{display:none}
+.tl-date{font-size:11px;color:var(--muted);margin:7px 0 6px;font-weight:600}
+.tl-card{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.tl-title{font-size:14px;font-weight:700;line-height:1.4}
+.tl-desc{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+.tl-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;margin-top:8px;background:var(--primary-soft);color:var(--primary);font-weight:600}
+/* ---------- health ---------- */
+.weight-now{display:flex;align-items:baseline;gap:8px;margin:2px 0 4px}
+.weight-now b{font-size:30px;font-weight:800;letter-spacing:-.5px}
+.weight-now span{font-size:13px;color:var(--muted);font-weight:600}
+.delta{font-size:11.5px;padding:3px 9px;border-radius:999px;font-weight:700;margin-left:auto}
+.delta.up{background:var(--primary-soft);color:var(--primary)}
+.delta.down{background:var(--green-soft);color:var(--green)}
+.chart-wrap{margin:4px -4px 0}
+.chart-wrap svg{width:100%;height:auto;display:block}
+.row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row:first-of-type{padding-top:2px}
+.row-icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:17px;flex:none}
+.row-icon.green{background:var(--green-soft)}
+.row-icon.blue{background:var(--blue-soft)}
+.row-icon.purple{background:var(--purple-soft)}
+.row-icon.orange{background:var(--primary-soft)}
+.row-main{flex:1;min-width:0}
+.row-title{font-size:13.5px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.row-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;flex:none}
+.row-status.ok{background:var(--green-soft);color:var(--green)}
+.row-status.soon{background:#FFF4E0;color:#E29A21}
+/* ---------- nearby ---------- */
+.loc-bar{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 12px}
+.loc-bar .loc{font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px}
+.loc-bar .switch{font-size:11.5px;color:var(--primary);font-weight:600;background:var(--primary-soft);padding:5px 11px;border-radius:999px;border:none;font-family:inherit;cursor:pointer}
+.mapcard{
+  height:168px;border-radius:18px;margin-bottom:14px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#EAF3EE 0%,#E3EEF6 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);
+}
+.mapcard .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.85) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.85) 1px,transparent 1px);background-size:34px 34px}
+.mapcard .road{position:absolute;background:rgba(255,255,255,.9);border-radius:3px}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.pin span{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 3px 10px rgba(60,80,90,.18);border:2px solid #fff}
+.pin.me span{background:var(--primary);color:#fff;width:40px;height:40px;font-size:18px;box-shadow:0 4px 14px rgba(255,122,89,.5);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.friend{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.f-avatar{width:46px;height:46px;border-radius:15px;background:var(--bg);display:grid;place-items:center;font-size:23px;flex:none;position:relative}
+.f-avatar .dot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#C9C3BC;border:2px solid #fff}
+.f-avatar .dot.on{background:var(--green)}
+.f-main{flex:1;min-width:0}
+.f-name{font-size:14px;font-weight:700}
+.f-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.f-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.f-tag{font-size:10px;background:var(--bg);color:var(--muted);padding:2px 8px;border-radius:999px}
+.hello{border:none;font-family:inherit;font-size:12px;font-weight:700;padding:8px 14px;border-radius:999px;background:var(--primary-soft);color:var(--primary);cursor:pointer;flex:none;transition:all .18s}
+.hello.done{background:var(--bg);color:var(--muted)}
+/* ---------- community ---------- */
+.composer{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:11px 13px;margin-bottom:14px;box-shadow:0 2px 12px rgba(90,70,50,.055);cursor:pointer}
+.composer-avatar{width:34px;height:34px;border-radius:50%;background:var(--primary-soft);display:grid;place-items:center;font-size:17px;flex:none}
+.composer-input{flex:1;font-size:13px;color:var(--muted)}
+.composer-btn{border:none;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:7px 15px;border-radius:999px;font-family:inherit}
+.post{background:#fff;border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.post-avatar{width:38px;height:38px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:19px;flex:none}
+.post-user{font-size:13.5px;font-weight:700}
+.post-time{font-size:11px;color:var(--muted);margin-top:1px}
+.post-text{font-size:13.5px;line-height:1.65;color:#3D3A36}
+.post-img{height:150px;border-radius:14px;margin-top:11px;display:grid;place-items:center;font-size:46px;background:linear-gradient(135deg,#FFF1E9,#FFE6DC)}
+.post-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.post-tag{font-size:11px;color:var(--blue);font-weight:600}
+.post-actions{display:flex;gap:22px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.act{display:flex;align-items:center;gap:5px;background:none;border:none;font:inherit;color:inherit;cursor:pointer;padding:0;transition:transform .15s}
+.act:active{transform:scale(.93)}
+.act.liked{color:var(--primary);font-weight:700}
+/* ---------- sheet ---------- */
+.sheet{position:absolute;inset:0;z-index:50;pointer-events:none}
+.sheet.open{pointer-events:auto}
+.sheet-mask{position:absolute;inset:0;background:rgba(35,28,22,.38);opacity:0;transition:opacity .25s;backdrop-filter:blur(2px)}
+.sheet.open .sheet-mask{opacity:1}
+.sheet-body{
+  position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;
+  padding:20px 20px calc(24px + env(safe-area-inset-bottom));
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);
+  max-height:82%;overflow-y:auto;
+}
+.sheet.open .sheet-body{transform:translateY(0)}
+.sheet-title{font-size:16px;font-weight:800;margin:0 0 4px}
+.sheet-sub{font-size:12px;color:var(--muted);margin:0 0 16px}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.type-btn{
+  display:flex;align-items:center;gap:10px;padding:14px;border-radius:15px;border:1.5px solid var(--line);
+  background:#fff;font-family:inherit;font-size:13.5px;font-weight:650;color:var(--ink);cursor:pointer;transition:all .18s;
+}
+.type-btn:active{transform:scale(.97)}
+.type-btn.on{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+.type-btn i{font-style:normal;font-size:20px}
+.field{margin-top:16px}
+.field label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:7px}
+.field input{
+  width:100%;padding:13px 15px;border-radius:13px;border:1.5px solid var(--line);background:var(--bg);
+  font-size:15px;font-family:inherit;color:var(--ink);outline:none;transition:border-color .18s;
+}
+.field input:focus{border-color:var(--primary);background:#fff}
+.save-btn{
+  width:100%;margin-top:18px;padding:15px;border-radius:14px;border:none;background:var(--primary);color:#fff;
+  font-size:15px;font-weight:750;font-family:inherit;cursor:pointer;box-shadow:0 8px 20px rgba(255,122,89,.34);
+  transition:transform .15s;
+}
+.save-btn:active{transform:scale(.98)}
+.save-btn:disabled{background:#DDD8D2;box-shadow:none}
+.pet-opt{display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;border:1.5px solid var(--line);margin-bottom:10px;cursor:pointer;background:#fff;transition:all .18s}
+.pet-opt.on{border-color:var(--primary);background:var(--primary-soft)}
+.pet-opt .pa{width:44px;height:44px;border-radius:14px;background:var(--bg);display:grid;place-items:center;font-size:22px;flex:none}
+.pet-opt .pn{font-size:14px;font-weight:700}
+.pet-opt .ps{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pet-opt .check{margin-left:auto;color:var(--primary);font-weight:800;font-size:16px}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:13px}
+.empty .e{font-size:44px;display:block;margin-bottom:12px;opacity:.6}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="topbar" id="topbar"></header>
+  <main id="view"></main>
+  <nav class="tabbar" id="tabbar"></nav>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+/* ============ 时间工具 ============ */
+const today = new Date(); today.setHours(0,0,0,0);
+const DAY = 86400000;
+function daysAgo(n){ const d = new Date(today); d.setDate(d.getDate()-n); return d; }
+function fmtMD(d){ return (d.getMonth()+1)+'月'+d.getDate()+'日'; }
+function fmtYMD(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function rel(d){
+  const diff = Math.round((today - d)/DAY);
+  if(diff<=0) return '今天';
+  if(diff===1) return '昨天';
+  if(diff<7) return diff+'天前';
+  if(diff<30) return Math.floor(diff/7)+'周前';
+  return Math.floor(diff/30)+'个月前';
+}
+function ageText(birth){
+  const now = new Date();
+  let y = now.getFullYear()-birth.getFullYear();
+  let m = now.getMonth()-birth.getMonth();
+  if(m<0 || (m===0 && now.getDate()<birth.getDate())){ y--; m+=12; }
+  return y>0 ? (y+'岁'+(m>0?m+'个月':'')) : (m+'个月');
+}
+function daysBetween(a,b){ return Math.max(0, Math.round((b-a)/DAY)); }
+
+/* ============ 图标 ============ */
+const ICONS = {
+  timeline:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-7-10.2A4.2 4.2 0 0 1 12 8.2 4.2 4.2 0 0 1 19 10.8C19 16.4 12 21 12 21z"/></svg>',
+  health:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5h3.6l2-5.2 3.1 10.4 2-5.2H21"/></svg>',
+  nearby:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.5 7-11.5a7 7 0 1 0-14 0c0 5 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+  community:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.2 8.2 0 0 1-11.9 7.3L4 21l1.8-5.2A8.2 8.2 0 1 1 21 12z"/></svg>'
+};
+
+/* ============ 数据 ============ */
+const state = {
+  pets:[
+    {id:'p1', name:'豆豆', breed:'柯基', emoji:'🐕', gender:'妹妹', birth:daysAgo(760)},
+    {id:'p2', name:'布丁', breed:'英短蓝猫', emoji:'🐈', gender:'弟弟', birth:daysAgo(1180)}
+  ],
+  currentId:'p1',
+  tab:'timeline',
+  filter:'all'
+};
+
+const W1 = [8.0,8.4,8.9,9.4,9.8,10.2,10.6,10.9,11.1,11.4];
+const W2 = [4.1,4.4,4.7,4.9,5.0,5.1,5.2];
+
+const db = {
+  p1:{
+    weights: W1.map((kg,i)=>({date:daysAgo((W1.length-1-i)*40), kg})),
+    timeline:[
+      {type:'weight', icon:'⚖️', title:'今日称重 11.4kg', desc:'比上次 +0.3kg，医生说体态标准，继续保持', date:daysAgo(0)},
+      {type:'vaccine', icon:'💉', title:'接种狂犬疫苗', desc:'康宁宠物医院 · 全程超乖，奖励了一根鸡肉干', date:daysAgo(3)},
+      {type:'daily', icon:'🛁', title:'第一次洗澡不闹了', desc:'自己走进浴缸，吹毛的时候直接睡着 🥹', date:daysAgo(9)},
+      {type:'milestone', icon:'🥏', title:'学会接飞盘', desc:'练了两周，今天终于稳稳接住三次！', date:daysAgo(28)},
+      {type:'deworm', icon:'🐛', title:'体外驱虫 · 福来恩', desc:'颈部后背滴剂，无不良反应', date:daysAgo(42)},
+      {type:'daily', icon:'🌳', title:'公园偶遇 3 个柯基朋友', desc:'和橘子、年糕一起疯跑了半小时，回家秒睡', date:daysAgo(55)},
+      {type:'milestone', icon:'🦷', title:'换牙完成', desc:'42 颗牙全部长齐，再也不咬沙发了（大概）', date:daysAgo(120)},
+      {type:'daily', icon:'🎂', title:'两岁生日', desc:'做了一个鸡胸肉南瓜蛋糕，吃得很满足', date:daysAgo(180)}
+    ],
+    vaccines:[
+      {name:'狂犬疫苗', date:daysAgo(3), place:'康宁宠物医院', next:daysAgo(-362)},
+      {name:'犬四联（第 3 针）', date:daysAgo(395), place:'康宁宠物医院', next:null},
+      {name:'犬四联（第 2 针）', date:daysAgo(425), place:'康宁宠物医院', next:null}
+    ],
+    deworm:[
+      {name:'体外驱虫 · 福来恩', date:daysAgo(12), next:daysAgo(-18)},
+      {name:'体内驱虫 · 拜宠清', date:daysAgo(12), next:daysAgo(-18)},
+      {name:'体外驱虫 · 福来恩', date:daysAgo(42), next:null}
+    ]
+  },
+  p2:{
+    weights: W2.map((kg,i)=>({date:daysAgo((W2.length-1-i)*50), kg})),
+    timeline:[
+      {type:'daily', icon:'🛋️', title:'霸占了我的键盘', desc:'正在开视频会议，它直接躺上来了', date:daysAgo(1)},
+      {type:'weight', icon:'⚖️', title:'今日称重 5.2kg', desc:'体重稳定，医生说保持得很好', date:daysAgo(5)},
+      {type:'vaccine', icon:'💉', title:'猫三联加强针', desc:'喵星宠物医院 · 全程冷静脸', date:daysAgo(30)},
+      {type:'milestone', icon:'🐾', title:'学会握手', desc:'用冻干训练了三天就学会了', date:daysAgo(70)},
+      {type:'deworm', icon:'🐛', title:'体内外驱虫 · 大宠爱', desc:'滴剂，无不良反应', date:daysAgo(88)}
+    ],
+    vaccines:[
+      {name:'猫三联加强针', date:daysAgo(30), place:'喵星宠物医院', next:daysAgo(-335)},
+      {name:'狂犬疫苗', date:daysAgo(300), place:'喵星宠物医院', next:null}
+    ],
+    deworm:[
+      {name:'体内外驱虫 · 大宠爱', date:daysAgo(88), next:daysAgo(-2)},
+      {name:'体内驱虫 · 拜宠清', date:daysAgo(120), next:null}
+    ]
+  }
+};
+
+const friends = [
+  {emoji:'🐕', pet:'橘子', breed:'柯基', owner:'小满', dist:0.4, tags:['同小区','同龄'], online:true, hello:false},
+  {emoji:'🐩', pet:'年糕', breed:'比熊', owner:'阿茶', dist:0.8, tags:['爱玩飞盘'], online:true, hello:false},
+  {emoji:'🐈', pet:'煤球', breed:'英短蓝猫', owner:'十一', dist:1.2, tags:['同品种'], online:false, hello:false},
+  {emoji:'🦮', pet:'大福', breed:'金毛', owner:'老周', dist:1.9, tags:['遛狗搭子'], online:true, hello:false},
+  {emoji:'🐈‍⬛', pet:'芝麻', breed:'布偶', owner:'Lily', dist:2.6, tags:['新手交流'], online:false, hello:false}
+];
+
+const posts = [
+  {avatar:'🐕', user:'豆豆麻麻', time:'2小时前', text:'豆豆今天第一次在公园里成功接住了飞盘！练了两周，柯基的执念真的很强 😂 附上记录的第 28 天打卡。', emoji:'🥏', likes:42, comments:8, liked:false, tags:['#遛狗日常','#柯基']},
+  {avatar:'🐈', user:'十一', time:'5小时前', text:'请教一下各位，猫咪换粮期软便怎么办？新旧粮已经混了一周了，益生菌也喂了…有点焦虑。', emoji:'🍚', likes:12, comments:23, liked:false, tags:['#新手求助','#养猫经验']},
+  {avatar:'🐩', user:'阿茶', time:'昨天', text:'给年糕做了个宠物生日蛋糕，鸡胸肉 + 南瓜 + 羊酸奶，它吃得头都不抬 🎂', emoji:'🎂', likes:88, comments:15, liked:false, tags:['#宠物烘焙']},
+  {avatar:'🦮', user:'老周', time:'2天前', text:'大福 8 岁了，体检报告一切正常。想说的是：大型犬一定要控制体重，关节真的伤不起。', emoji:'🩺', likes:156, comments:31, liked:false, tags:['#健康科普','#金毛']}
+];
+
+/* ============ 状态 ============ */
+let sheet = null;
+let draftType = null;
+const currentPet = () => state.pets.find(p=>p.id===state.currentId);
+
+/* ============ 顶栏 ============ */
+function topbarHTML(){
+  const p = currentPet();
+  const d = db[p.id];
+  const lastW = d.weights[d.weights.length-1].kg;
+  return `
+    <button class="pet-chip" data-act="switchPet">
+      <div class="pet-avatar">${p.emoji}</div>
+      <div class="pet-meta">
+        <div class="pet-name">${p.name}<span class="caret">▾</span></div>
+        <div class="pet-sub">${p.breed} · ${ageText(p.birth)} · ${lastW}kg</div>
+      </div>
+    </button>
+    <button class="icon-btn" data-act="add" aria-label="添加记录">+</button>
+  `;
+}
+
+/* ============ 时间线 ============ */
+const FILTERS = [['all','全部'],['health','健康档案'],['daily','日常'],['milestone','里程碑']];
+function matchFilter(t, f){
+  if(f==='all') return true;
+  if(f==='health') return ['vaccine','deworm','weight'].includes(t);
+  if(f==='daily') return t==='daily';
+  if(f==='milestone') return t==='milestone';
+  return true;
+}
+function tagLabel(t){
+  return {vaccine:'健康档案', deworm:'健康档案', weight:'健康档案', daily:'养宠日常', milestone:'成长里程碑'}[t] || '记录';
+}
+
+function timelineView(){
+  const p = currentPet();
+  const d = db[p.id];
+  const days = daysBetween(p.birth, new Date());
+  const lastW = d.weights[d.weights.length-1].kg;
+  const nextDeworm = d.deworm.find(x=>x.next);
+  const dewormLeft = nextDeworm ? Math.round((nextDeworm.next - today)/DAY) : null;
+
+  const list = d.timeline.filter(r=>matchFilter(r.type, state.filter));
+
+  const stats = `
+    <div class="stats">
+      <div class="stat"><b>${lastW}</b><span>当前体重 (kg)</span></div>
+      <div class="stat"><b>${d.vaccines.length}</b><span>疫苗记录</span></div>
+      <div class="stat"><b>${dewormLeft!==null ? dewormLeft+'天' : '—'}</b><span>距下次驱虫</span></div>
+    </div>`;
+
+  const items = list.length ? list.map(r=>`
+    <div class="tl-item">
+      <div class="tl-rail"><div class="tl-dot">${r.icon}</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-date">${fmtMD(r.date)} · ${rel(r.date)}</div>
+        <div class="tl-card">
+          <div class="tl-title">${r.title}</div>
+          ${r.desc?`<div class="tl-desc">${r.desc}</div>`:''}
+          <div class="tl-tag">${tagLabel(r.type)}</div>
+        </div>
+      </div>
+    </div>`).join('')
+    : `<div class="empty"><span class="e">🐾</span>这个分类下还没有记录<br>点右上角「+」添加第一条吧</div>`;
+
+  return `
+    <div class="hero">
+      <div class="hero-row">
+        <div class="hero-avatar">${p.emoji}</div>
+        <div>
+          <div class="hero-title">陪伴第 <b>${days}</b> 天</div>
+          <div class="hero-sub">${p.name} · ${p.gender} · ${fmtYMD(p.birth)} 出生</div>
+        </div>
+      </div>
+      ${stats}
+    </div>
+    <div class="chips">
+      ${FILTERS.map(([k,v])=>`<button class="chip ${state.filter===k?'active':''}" data-act="filter" data-f="${k}">${v}</button>`).join('')}
+    </div>
+    <div>${items}</div>
+  `;
+}
+
+/* ============ 健康 ============ */
+function weightSVG(data){
+  const W=340, H=165, padL=36, padR=16, padT=18, padB=26;
+  const vals = data.map(d=>d.kg);
+  let min = Math.min(...vals), max = Math.max(...vals);
+  if(max-min < 0.8){ const c=(max+min)/2; min=c-0.4; max=c+0.4; }
+  const pd = (max-min)*0.18; min-=pd; max+=pd;
+  const n = data.length;
+  const X = i => padL + (W-padL-padR)*(n===1?0.5:i/(n-1));
+  const Y = v => padT + (H-padT-padB)*(1-(v-min)/(max-min));
+
+  let grid='';
+  for(let g=0;g<=2;g++){
+    const v = min + (max-min)*(g/2);
+    const y = Y(v);
+    grid += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W-padR}" y2="${y.toFixed(1)}" stroke="#EDE9E3" stroke-width="1"/>`;
+    grid += `<text x="${padL-8}" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#9A938B">${v.toFixed(1)}</text>`;
+  }
+
+  const pts = data.map((d,i)=>[X(i),Y(d.kg)]);
+  const line = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area = line + ` L ${pts[n-1][0].toFixed(1)} ${H-padB} L ${pts[0][0].toFixed(1)} ${H-padB} Z`;
+
+  const dots = pts.map((p,i)=> i===n-1
+    ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="5" fill="#FF7A59" stroke="#fff" stroke-width="2.2"/>`
+    : `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#fff" stroke="#FF7A59" stroke-width="1.8"/>`
+  ).join('');
+
+  const idxs = n>2 ? [0, Math.floor((n-1)/2), n-1] : [0, n-1];
+  const xlabels = [...new Set(idxs)].map(i=>
+    `<text x="${X(i).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="9.5" fill="#9A938B">${fmtMD(data[i].date)}</text>`
+  ).join('');
+
+  const lastP = pts[n-1];
+  const valueLabel = `<text x="${(lastP[0]-6).toFixed(1)}" y="${(lastP[1]-12).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="#FF7A59">${vals[n-1]}kg</text>`;
+
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF7A59" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#FF7A59" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <path d="${area}" fill="url(#wg)"/>
+    <path d="${line}" fill="none" stroke="#FF7A59" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+    ${valueLabel}
+    ${xlabels}
+  </svg>`;
+}
+
+function healthView(){
+  const p = currentPet();
+  const d = db[p.id];
+  const ws = d.weights;
+  const last = ws[ws.length-1], prev = ws[ws.length-2];
+  const delta = prev ? +(last.kg - prev.kg).toFixed(1) : 0;
+
+  const vac = d.vaccines.map(v=>`
+    <div class="row">
+      <div class="row-icon green">💉</div>
+      <div class="row-main">
+        <div class="row-title">${v.name}</div>
+        <div class="row-sub">${fmtYMD(v.date)} · ${v.place}${v.next?` · 下次 ${fmtYMD(v.next)}`:''}</div>
+      </div>
+      <div class="row-status ok">已完成</div>
+    </div>`).join('');
+
+  const dew = d.deworm.map(v=>{
+    const left = v.next ? Math.round((v.next - today)/DAY) : null;
+    const soon = left!==null && left <= 7;
+    return `
+    <div class="row">
+      <div class="row-icon blue">🐛</div>
+      <div class="row-main">
+        <div class="row-title">${v.name}</div>
+        <div class="row-sub">${fmtYMD(v.date)}${v.next?` · 下次 ${fmtYMD(v.next)}`:''}</div>
+      </div>
+      <div class="row-status ${soon?'soon':'ok'}">${left===null?'已完成':(left<0?'已到期':left+'天后')}</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="sec-title">健康档案 · ${p.name}</div>
+    <div class="card">
+      <div class="card-head">
+        <h3>体重趋势</h3>
+        <span class="pill">近 ${ws.length} 次记录</span>
+      </div>
+      <div class="weight-now">
+        <b>${last.kg}</b><span>kg</span>
+        <span class="delta ${delta>=0?'up':'down'}">${delta>=0?'↑':'↓'} ${Math.abs(delta)} 较上次</span>
+      </div>
+      <div class="chart-wrap">${weightSVG(ws)}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>疫苗记录</h3><span class="pill">${d.vaccines.length} 条</span></div>
+      ${vac}
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>驱虫记录</h3><span class="pill">${d.deworm.length} 条</span></div>
+      ${dew}
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#FFF6F2,#FFEFE9);box-shadow:none">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <div style="font-size:18px">💡</div>
+        <div style="font-size:12.5px;line-height:1.65;color:#8A6A5E">
+          <b style="color:#E2603F">健康提醒</b><br>
+          ${p.name} 下次体外驱虫还有 ${d.deworm.find(x=>x.next)?Math.max(0,Math.round((d.deworm.find(x=>x.next).next-today)/DAY)):'—'} 天，记得提前备好滴剂。
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============ 附近 ============ */
+function nearbyView(){
+  const pins = [
+    {e:'🐕', l:22, t:30},
+    {e:'🐩', l:74, t:26},
+    {e:'🐈', l:34, t:68},
+    {e:'🦮', l:80, t:66}
+  ].map(p=>`<div class="pin" style="left:${p.l}%;top:${p.t}%"><span>${p.e}</span></div>`).join('');
+
+  const list = friends.map((f,i)=>`
+    <div class="friend">
+      <div class="f-avatar">${f.emoji}<span class="dot ${f.online?'on':''}"></span></div>
+      <div class="f-main">
+        <div class="f-name">${f.pet} <span style="font-weight:400;color:var(--muted);font-size:11.5px">· ${f.breed}</span></div>
+        <div class="f-sub">${f.owner} · 距离你 ${f.dist}km</div>
+        <div class="f-tags">${f.tags.map(t=>`<span class="f-tag">${t}</span>`).join('')}</div>
+      </div>
+      <button class="hello ${f.hello?'done':''}" data-act="hello" data-i="${i}">${f.hello?'已打招呼':'打招呼'}</button>
+    </div>`).join('');
+
+  return `
+    <div class="loc-bar">
+      <div class="loc">📍 成都市 · 高新区</div>
+      <button class="switch" data-act="loc">切换位置</button>
+    </div>
+    <div class="mapcard">
+      <div class="grid"></div>
+      <div class="road" style="left:0;right:0;top:46%;height:7px"></div>
+      <div class="road" style="top:0;bottom:0;left:48%;width:7px"></div>
+      ${pins}
+      <div class="pin me" style="left:48%;top:46%"><span>📍</span></div>
+    </div>
+    <div class="sec-title">附近 ${friends.length} 位宠友 · 按距离排序</div>
+    ${list}
+    <div class="empty" style="padding:24px 0 8px;font-size:12px">—— 已经到底啦，去社区看看 ——</div>
+  `;
+}
+
+/* ============ 社区 ============ */
+function communityView(){
+  const p = currentPet();
+  const list = posts.map((post,i)=>`
+    <div class="post">
+      <div class="post-head">
+        <div class="post-avatar">${post.avatar}</div>
+        <div>
+          <div class="post-user">${post.user}</div>
+          <div class="post-time">${post.time}</div>
+        </div>
+      </div>
+      <div class="post-text">${post.text}</div>
+      <div class="post-img">${post.emoji}</div>
+      <div class="post-tags">${post.tags.map(t=>`<span class="post-tag">${t}</span>`).join('')}</div>
+      <div class="post-actions">
+        <button class="act ${post.liked?'liked':''}" data-act="like" data-i="${i}">
+          ${post.liked?'❤️':'🤍'} ${post.likes}
+        </button>
+        <button class="act" data-act="comment">💬 ${post.comments}</button>
+        <button class="act" style="margin-left:auto" data-act="share">↗ 分享</button>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div class="composer" data-act="add">
+      <div class="composer-avatar">${p.emoji}</div>
+      <div class="composer-input">分享 ${p.name} 的日常…</div>
+      <button class="composer-btn">发布</button>
+    </div>
+    <div class="sec-title">成都 · 高新区 宠友圈</div>
+    ${list}
+  `;
+}
+
+/* ============ 底部导航 ============ */
+function tabbarHTML(){
+  const tabs = [['timeline','时间线'],['health','健康'],['nearby','附近'],['community','社区']];
+  return tabs.map(([k,v])=>`
+    <button class="tab ${state.tab===k?'active':''}" data-act="tab" data-t="${k}">
+      ${ICONS[k]}<span>${v}</span>
+    </button>`).join('');
+}
+
+/* ============ 弹层 ============ */
+function addSheetHTML(){
+  const types = [['weight','⚖️','体重'],['vaccine','💉','疫苗'],['deworm','🐛','驱虫'],['daily','📷','日常']];
+  let form = '';
+  if(draftType){
+    if(draftType==='weight'){
+      const last = db[state.currentId].weights.slice(-1)[0].kg;
+      form = `
+        <div class="field">
+          <label>体重（kg）· 上次记录 ${last}kg</label>
+          <input id="inp" type="number" step="0.1" inputmode="decimal" placeholder="例如 11.5" autocomplete="off">
+        </div>
+        <button class="save-btn" data-act="save">保存记录</button>`;
+    } else {
+      const ph = {vaccine:'例如：接种狂犬疫苗', deworm:'例如：体外驱虫 · 福来恩', daily:'例如：今天学会了握手！'}[draftType];
+      form = `
+        <div class="field">
+          <label>记录内容</label>
+          <input id="inp" type="text" placeholder="${ph}" autocomplete="off">
+        </div>
+        <button class="save-btn" data-act="save">保存记录</button>`;
+    }
+  }
+  return `
+    <div class="sheet-mask" data-act="closeSheet"></div>
+    <div class="sheet-body">
+      <h4 class="sheet-title">添加一条记录</h4>
+      <p class="sheet-sub">为 ${currentPet().name} 记录成长瞬间，数据会同步到时间线与健康档案</p>
+      <div class="type-grid">
+        ${types.map(([k,e,n])=>`
+          <button class="type-btn ${draftType===k?'on':''}" data-act="pickType" data-k="${k}">
+            <i>${e}</i>${n}
+          </button>`).join('')}
+      </div>
+      ${form}
+    </div>`;
+}
+
+function petSheetHTML(){
+  return `
+    <div class="sheet-mask" data-act="closeSheet"></div>
+    <div class="sheet-body">
+      <h4 class="sheet-title">切换宠物</h4>
+      <p class="sheet-sub">所有记录与档案会跟着宠物一起切换</p>
+      ${state.pets.map(p=>{
+        const w = db[p.id].weights.slice(-1)[0].kg;
+        return `
+        <div class="pet-opt ${p.id===state.currentId?'on':''}" data-act="selectPet" data-id="${p.id}">
+          <div class="pa">${p.emoji}</div>
+          <div>
+            <div class="pn">${p.name}</div>
+            <div class="ps">${p.breed} · ${ageText(p.birth)} · ${w}kg</div>
+          </div>
+          ${p.id===state.currentId?'<div class="check">✓</div>':''}
+        </div>`;
+      }).join('')}
+      <button class="save-btn" data-act="addPet" style="background:var(--bg);color:var(--ink);box-shadow:none">＋ 添加新宠物</button>
+    </div>`;
+}
+
+function renderSheet(){
+  const el = document.getElementById('sheet');
+  if(!sheet){ el.classList.remove('open'); el.innerHTML=''; return; }
+  el.innerHTML = sheet==='add' ? addSheetHTML() : petSheetHTML();
+  requestAnimationFrame(()=>el.classList.add('open'));
+  if(draftType) setTimeout(()=>{ const i=document.getElementById('inp'); if(i) i.focus(); }, 320);
+}
+
+/* ============ 渲染 ============ */
+function render(){
+  document.getElementById('topbar').innerHTML = topbarHTML();
+  document.getElementById('tabbar').innerHTML = tabbarHTML();
+  const view = document.getElementById('view');
+  view.innerHTML = state.tab==='timeline' ? timelineView()
+                 : state.tab==='health'   ? healthView()
+                 : state.tab==='nearby'   ? nearbyView()
+                 : communityView();
+  view.scrollTop = 0;
+  renderSheet();
+}
+
+/* ============ 交互 ============ */
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-act]');
+  if(!el) return;
+  const act = el.dataset.act;
+
+  if(act==='tab'){ state.tab = el.dataset.t; render(); }
+  else if(act==='filter'){ state.filter = el.dataset.f; render(); }
+  else if(act==='add'){ sheet='add'; draftType=null; renderSheet(); }
+  else if(act==='switchPet'){ sheet='pet'; renderSheet(); }
+  else if(act==='closeSheet'){ sheet=null; draftType=null; renderSheet(); }
+  else if(act==='pickType'){ draftType = el.dataset.k; renderSheet(); }
+  else if(act==='selectPet'){
+    state.currentId = el.dataset.id;
+    state.filter='all';
+    sheet=null; render();
+  }
+  else if(act==='addPet'){
+    const n = state.pets.length+1;
+    const np = {id:'p'+n, name:'新宠物', breed:'待填写', emoji:'🐾', gender:'—', birth:daysAgo(30)};
+    state.pets.push(np);
+    db[np.id] = {weights:[{date:daysAgo(0), kg:1}], timeline:[], vaccines:[], deworm:[]};
+    state.currentId = np.id;
+    sheet=null; render();
+  }
+  else if(act==='save'){
+    const inp = document.getElementById('inp');
+    if(!inp) return;
+    const d = db[state.currentId];
+    if(draftType==='weight'){
+      const v = parseFloat(inp.value);
+      if(!v || v<=0){ inp.focus(); return; }
+      d.weights.push({date:new Date(today), kg:+v.toFixed(1)});
+      d.timeline.unshift({type:'weight', icon:'⚖️', title:'今日称重 '+v.toFixed(1)+'kg', desc:'手动记录', date:new Date(today)});
+    } else {
+      const txt = inp.value.trim();
+      if(!txt){ inp.focus(); return; }
+      const map = {vaccine:{i:'💉'}, deworm:{i:'🐛'}, daily:{i:'📷'}};
+      d.timeline.unshift({type:draftType, icon:map[draftType].i, title:txt, desc:'手动记录', date:new Date(today)});
+    }
+    sheet=null; draftType=null;
+    render();
+  }
+  else if(act==='like'){
+    const i = +el.dataset.i;
+    posts[i].liked = !posts[i].liked;
+    posts[i].likes += posts[i].liked ? 1 : -1;
+    render();
+  }
+  else if(act==='hello'){
+    const i = +el.dataset.i;
+    friends[i].hello = !friends[i].hello;
+    render();
+  }
+  else if(act==='loc'){ el.textContent = el.textContent==='切换位置' ? '定位中…' : '切换位置'; setTimeout(()=>render(), 700); }
+  else if(act==='comment' || act==='share'){ /* 原型占位 */ }
+});
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && e.target && e.target.id==='inp'){
+    const btn = document.querySelector('[data-act="save"]');
+    if(btn) btn.click();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
