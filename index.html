@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#F5F3EF">
+<title>毛球日记 · 养宠成长记录与社区</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#F5F3EF;--card:#fff;--ink:#2B2A28;--muted:#9A938B;--line:#EDE9E3;--primary:#FF7A59;--primary-soft:#FFEFE9;--green:#3FBF9F;--green-soft:#E8F7F2;--blue:#5B9BFF;--blue-soft:#EAF1FF;--purple:#7C6BE0;--purple-soft:#F0EDFF;--yellow:#E2A021;--yellow-soft:#FFF4E0;--red:#F05A5A;--red-soft:#FFEBEB;--olive:#5A5A3C}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#E9E5DF;color:var(--ink);display:flex;justify-content:center;align-items:center;-webkit-font-smoothing:antialiased}
+.phone{width:100%;max-width:430px;height:100dvh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media(min-width:520px){body{background:radial-gradient(1200px 600px at 50% 0%,#F3EFE9 0%,#E4DFD7 100%)}.phone{border-radius:28px;height:92dvh;box-shadow:0 30px 80px rgba(60,45,30,.22),0 0 0 1px rgba(0,0,0,.04)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;flex:none}
+.pet-chip{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:999px;background:#fff;box-shadow:0 2px 12px rgba(90,70,50,.07);cursor:pointer;border:none;font:inherit;color:inherit}
+.pet-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary-soft);display:grid;place-items:center;font-size:21px;flex:none;overflow:hidden}
+.pet-avatar img{width:100%;height:100%;object-fit:cover}
+.pet-meta{text-align:left;line-height:1.25}
+.pet-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:4px}
+.caret{font-size:10px;color:var(--muted)}
+.pet-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 16px rgba(255,122,89,.4);transition:transform .15s}
+.icon-btn:active{transform:scale(.92)}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 16px 24px;scroll-behavior:smooth}
+main::-webkit-scrollbar{display:none}
+.tabbar{flex:none;display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.tab{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:#B5AEA6;font-size:10.5px;font-family:inherit;padding:4px 0;cursor:pointer;transition:color .18s}
+.tab svg{width:23px;height:23px;transition:transform .18s}
+.tab.active{color:var(--primary);font-weight:600}
+.tab.active svg{transform:translateY(-1px) scale(1.06)}
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 14px rgba(90,70,50,.055)}
+.card h3{margin:0;font-size:15px;font-weight:700}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pill{font-size:11px;color:var(--muted);background:var(--bg);padding:3px 9px;border-radius:999px}
+.sec-title{font-size:13px;font-weight:700;color:var(--muted);margin:18px 2px 10px;letter-spacing:.3px}
+.hero{border-radius:20px;padding:18px;margin:4px 0 14px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,#FF9A76 0%,#FF7A59 48%,#F2634A 100%);box-shadow:0 10px 26px rgba(255,122,89,.3)}
+.hero.senior{background:linear-gradient(135deg,#9B8CFF 0%,#7C6BE0 48%,#6A58D6 100%);box-shadow:0 10px 26px rgba(124,107,224,.3)}
+.hero::after{content:"";position:absolute;right:-34px;top:-46px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.14)}
+.hero-row{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.hero-avatar{width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,.24);display:grid;place-items:center;font-size:26px;flex:none;overflow:hidden;border:2px solid rgba(255,255,255,.4)}
+.hero-avatar img{width:100%;height:100%;object-fit:cover}
+.hero-title{font-size:17px;font-weight:800;letter-spacing:.2px}
+.hero-title b{font-size:22px;margin:0 2px}
+.hero-sub{font-size:11.5px;opacity:.88;margin-top:3px}
+.stats{display:flex;gap:8px;margin-top:16px;position:relative;z-index:1}
+.stat{flex:1;background:rgba(255,255,255,.17);border-radius:12px;padding:9px 8px;text-align:center}
+.stat b{display:block;font-size:16px;font-weight:800}
+.stat span{font-size:10px;opacity:.86;display:block;margin-top:2px}
+.view-switch{display:flex;gap:6px;background:#fff;border-radius:12px;padding:4px;margin-bottom:14px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.vs-btn{flex:1;border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--muted);padding:8px 0;border-radius:9px;cursor:pointer;transition:all .18s}
+.vs-btn.on{background:var(--ink);color:#fff}
+.chart-scroll{overflow-x:auto;overflow-y:hidden;margin:0 -16px 8px;padding:0 16px}
+.chart-scroll::-webkit-scrollbar{display:none}
+.chart-svg{display:block;height:auto}
+.vtl{position:relative;padding:8px 0}
+.vtl::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--line);transform:translateX(-50%)}
+.vtl-item{position:relative;display:flex;margin-bottom:22px;align-items:flex-start}
+.vtl-item.left{justify-content:flex-start;padding-right:calc(50% + 14px)}
+.vtl-item.right{justify-content:flex-end;padding-left:calc(50% + 14px)}
+.vtl-dot{position:absolute;left:50%;top:22px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;transform:translateX(-50%);box-shadow:0 2px 8px rgba(255,122,89,.4);z-index:1}
+.vtl-card{background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 12px rgba(90,70,50,.07);width:100%}
+.vtl-photo{width:100%;aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,#FFF1E9,#FFE6DC);display:grid;place-items:center;font-size:36px;overflow:hidden;margin-bottom:10px}
+.vtl-photo img{width:100%;height:100%;object-fit:cover}
+.vtl-date{font-size:10.5px;color:var(--muted);font-weight:600}
+.vtl-kg{font-size:22px;font-weight:800;margin:4px 0 2px;letter-spacing:-.5px}
+.vtl-kg span{font-size:12px;color:var(--muted);font-weight:600;margin-left:3px}
+.vtl-note{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:4px}
+.tl-item{display:flex;gap:11px}
+.tl-rail{display:flex;flex-direction:column;align-items:center;width:44px;flex:none}
+.tl-dot{width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 2px 8px rgba(90,70,50,.09);z-index:1;flex:none;overflow:hidden}
+.tl-dot img{width:100%;height:100%;object-fit:cover}
+.tl-line{flex:1;width:2px;background:var(--line);margin:-3px 0 0}
+.tl-body{flex:1;padding-bottom:16px;min-width:0}
+.tl-item:last-child .tl-body{padding-bottom:4px}
+.tl-item:last-child .tl-line{display:none}
+.tl-date{font-size:11px;color:var(--muted);margin:9px 0 6px;font-weight:600}
+.tl-card{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.tl-title{font-size:14px;font-weight:700;line-height:1.4}
+.tl-desc{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+.tl-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;margin-top:8px;background:var(--primary-soft);color:var(--primary);font-weight:600}
+.tl-tag.health{background:var(--blue-soft);color:var(--blue)}
+.mini-weight{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 14px rgba(90,70,50,.055);cursor:pointer;border:none;font:inherit;text-align:left;width:100%}
+.mw-num{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.mw-num span{font-size:12px;color:var(--muted);font-weight:600;margin-left:2px}
+.mw-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.mw-chart{flex:1;height:36px}
+.mw-go{color:var(--primary);font-size:18px;font-weight:700}
+.row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row-icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:17px;flex:none}
+.row-icon.green{background:var(--green-soft)}
+.row-icon.blue{background:var(--blue-soft)}
+.row-main{flex:1;min-width:0}
+.row-title{font-size:13.5px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.row-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;flex:none}
+.row-status.ok{background:var(--green-soft);color:var(--green)}
+.row-status.soon{background:var(--yellow-soft);color:var(--yellow)}
+.triage-entry{display:flex;align-items:center;gap:13px;background:linear-gradient(135deg,#FFF6F2,#FFEFE9);border-radius:18px;padding:15px;margin-bottom:12px;cursor:pointer;border:none;font:inherit;text-align:left;width:100%;box-shadow:0 2px 14px rgba(255,122,89,.12)}
+.triage-entry .te-icon{width:44px;height:44px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:22px;flex:none;box-shadow:0 3px 10px rgba(255,122,89,.18)}
+.triage-entry .te-title{font-size:14.5px;font-weight:750;color:#2B2A28}
+.triage-entry .te-sub{font-size:11.5px;color:#A78478;margin-top:3px;line-height:1.5}
+.triage-entry .te-go{margin-left:auto;font-size:18px;color:var(--primary);flex:none}
+.senior-entry{background:linear-gradient(135deg,#F3F0FF,#EAE5FF);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 2px 14px rgba(124,107,224,.12)}
+.senior-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.senior-head .se-icon{width:44px;height:44px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:22px;flex:none}
+.senior-head .se-title{font-size:14.5px;font-weight:750;color:#3D2F8A}
+.senior-head .se-sub{font-size:11.5px;color:#7C6BE0;margin-top:3px}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.score-row .sr-label{width:52px;font-size:12px;color:#5A4BB8;font-weight:600;flex:none}
+.score-row .sr-bar{flex:1}
+.score-row input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:999px;background:#DDD6FF;outline:none;margin:0}
+.score-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#7C6BE0;border:3px solid #fff;box-shadow:0 2px 8px rgba(124,107,224,.4);cursor:pointer}
+.score-row .sr-val{width:18px;font-size:13px;font-weight:700;color:#7C6BE0;text-align:right}
+.score-summary{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(124,107,224,.18)}
+.score-summary .ss-total{font-size:13px;color:#5A4BB8;font-weight:650}
+.score-summary .ss-total b{font-size:22px;font-weight:800;color:#7C6BE0;margin-right:2px}
+.score-save{border:none;background:#7C6BE0;color:#fff;font-size:12.5px;font-weight:700;padding:9px 18px;border-radius:999px;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(124,107,224,.35)}
+.score-trend{margin-top:10px;font-size:11.5px;color:#7C6BE0}
+.loc-bar{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 12px}
+.loc-bar .loc{font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px}
+.loc-bar .switch{font-size:11.5px;color:var(--primary);font-weight:600;background:var(--primary-soft);padding:5px 11px;border-radius:999px;border:none;font-family:inherit;cursor:pointer}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;margin:0 -16px;padding-left:16px;padding-right:16px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:12.5px;padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit;transition:all .18s;white-space:nowrap}
+.chip.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+.mapcard{height:150px;border-radius:18px;margin-bottom:14px;position:relative;overflow:hidden;background:linear-gradient(160deg,#EAF3EE 0%,#E3EEF6 100%)}
+.mapcard .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.85) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.85) 1px,transparent 1px);background-size:34px 34px}
+.mapcard .road{position:absolute;background:rgba(255,255,255,.9);border-radius:3px}
+.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.pin span{width:32px;height:32px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px;box-shadow:0 3px 10px rgba(60,80,90,.18);border:2px solid #fff}
+.pin.me span{background:var(--primary);color:#fff;width:38px;height:38px;font-size:17px;box-shadow:0 4px 14px rgba(255,122,89,.5)}
+.friend{background:#fff;border-radius:16px;padding:13px;margin-bottom:10px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.friend-top{display:flex;align-items:center;gap:12px}
+.f-avatar{width:52px;height:52px;border-radius:16px;background:var(--bg);display:grid;place-items:center;font-size:23px;flex:none;position:relative;overflow:hidden}
+.f-avatar .dot{position:absolute;right:2px;bottom:2px;width:11px;height:11px;border-radius:50%;background:#C9C3BC;border:2px solid #fff}
+.f-avatar .dot.on{background:var(--green)}
+.f-main{flex:1;min-width:0}
+.f-name{font-size:14px;font-weight:700}
+.f-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.f-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.f-tag{font-size:10px;background:var(--bg);color:var(--muted);padding:2px 8px;border-radius:999px}
+.friend-posts{margin-top:11px;padding-top:10px;border-top:1px dashed var(--line)}
+.fp-label{font-size:10.5px;color:var(--muted);font-weight:600;margin-bottom:6px}
+.fp-card{background:var(--bg);border-radius:11px;padding:9px 11px;font-size:12px;color:#5A554F;line-height:1.5;cursor:pointer;border:none;font-family:inherit;text-align:left;width:100%;display:block}
+.fp-card .fp-time{font-size:10px;color:var(--muted);margin-bottom:3px}
+.fp-empty{font-size:11.5px;color:var(--muted);background:var(--bg);border-radius:11px;padding:9px 11px;text-align:center}
+.friend-acts{display:flex;gap:8px;margin-top:10px}
+.fa-btn{flex:1;border:none;font-family:inherit;font-size:12px;font-weight:700;padding:8px 0;border-radius:999px;cursor:pointer}
+.fa-btn.primary{background:var(--primary-soft);color:var(--primary)}
+.fa-btn.primary.done{background:var(--bg);color:var(--muted)}
+.fa-btn.ghost{background:var(--bg);color:var(--ink)}
+.caregiver{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 2px 12px rgba(90,70,50,.055)}
+.cg-avatar{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#EAF1FF,#DDE8FF);display:grid;place-items:center;font-size:23px;flex:none;position:relative;overflow:hidden}
+.cg-avatar .badge{position:absolute;right:-2px;bottom:-2px;background:var(--green);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:999px;border:2px solid #fff;z-index:1}
+.cg-main{flex:1;min-width:0}
+.cg-name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+.cg-star{font-size:11px;color:#E2A021;font-weight:700}
+.cg-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.cg-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.cg-tag{font-size:10px;background:var(--blue-soft);color:var(--blue);padding:2px 8px;border-radius:999px;font-weight:600}
+.cg-btn{border:none;font-family:inherit;font-size:12px;font-weight:700;padding:8px 13px;border-radius:999px;background:var(--primary);color:#fff;cursor:pointer;flex:none;box-shadow:0 4px 12px rgba(255,122,89,.3)}
+.cg-price{font-size:12px;font-weight:700;color:var(--primary);margin-top:3px}
+.match-loading{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
+.spinner{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--primary);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.composer{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:11px 13px;margin-bottom:14px;box-shadow:0 2px 12px rgba(90,70,50,.055);cursor:pointer}
+.composer-avatar{width:34px;height:34px;border-radius:50%;background:var(--primary-soft);display:grid;place-items:center;font-size:17px;flex:none}
+.composer-input{flex:1;font-size:13px;color:var(--muted)}
+.composer-btn{border:none;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:7px 15px;border-radius:999px;font-family:inherit}
+.post{background:#fff;border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 2px 12px rgba(90,70,50,.055);transition:box-shadow .3s}
+.post.flash{animation:flash 2.4s ease}
+@keyframes flash{0%,100%{box-shadow:0 2px 12px rgba(90,70,50,.055)}15%,55%{box-shadow:0 0 0 3px var(--primary),0 8px 24px rgba(255,122,89,.25)}}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.post-avatar{width:42px;height:42px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:19px;flex:none;overflow:hidden}
+.post-user{font-size:13.5px;font-weight:700}
+.post-time{font-size:11px;color:var(--muted);margin-top:1px}
+.post-text{font-size:13.5px;line-height:1.65;color:#3D3A36}
+.post-img{height:150px;border-radius:14px;margin-top:11px;display:grid;place-items:center;font-size:46px;background:linear-gradient(135deg,#FFF1E9,#FFE6DC);overflow:hidden}
+.post-img img{width:100%;height:100%;object-fit:cover}
+.post-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.post-tag{font-size:11px;color:var(--blue);font-weight:600}
+.post-actions{display:flex;gap:26px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.act{display:flex;align-items:center;gap:5px;background:none;border:none;font:inherit;color:inherit;cursor:pointer;padding:0}
+.act.liked{color:var(--primary);font-weight:700}
+.post-comments{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:none}
+.post-comments.open{display:block}
+.comment-item{display:flex;gap:9px;margin-bottom:10px}
+.c-avatar{width:32px;height:32px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:15px;flex:none}
+.c-main{flex:1;min-width:0}
+.c-user{font-size:12px;font-weight:700;color:#5A554F}
+.c-text{font-size:12.5px;color:#3D3A36;margin-top:2px;line-height:1.55;word-break:break-word}
+.c-time{font-size:10px;color:var(--muted);margin-top:2px}
+.comment-input-row{display:flex;gap:8px;margin-top:10px}
+.comment-input-row input{flex:1;padding:9px 13px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-size:13px;font-family:inherit;outline:none;color:var(--ink)}
+.comment-input-row input:focus{border-color:var(--primary);background:#fff}
+.comment-send{border:none;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:0 16px;border-radius:999px;cursor:pointer;font-family:inherit;flex:none}
+.comment-empty{text-align:center;font-size:12px;color:var(--muted);padding:10px 0}
+.sheet{position:absolute;inset:0;z-index:50;pointer-events:none}
+.sheet.open{pointer-events:auto}
+.sheet-mask{position:absolute;inset:0;background:rgba(35,28,22,.38);opacity:0;transition:opacity .25s;backdrop-filter:blur(2px)}
+.sheet.open .sheet-mask{opacity:1}
+.sheet-body{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);max-height:90%;overflow-y:auto}
+.sheet.open .sheet-body{transform:translateY(0)}
+.sheet-title{font-size:16px;font-weight:800;margin:0 0 4px}
+.sheet-sub{font-size:12px;color:var(--muted);margin:0 0 16px}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.type-btn{display:flex;align-items:center;gap:10px;padding:14px;border-radius:15px;border:1.5px solid var(--line);background:#fff;font-family:inherit;font-size:13.5px;font-weight:650;color:var(--ink);cursor:pointer}
+.type-btn i{font-style:normal;font-size:20px}
+.field{margin-top:14px}
+.field label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:7px}
+.field input{width:100%;padding:12px 15px;border-radius:13px;border:1.5px solid var(--line);background:var(--bg);font-size:15px;font-family:inherit;color:var(--ink);outline:none}
+.field input:focus{border-color:var(--primary);background:#fff}
+.field-row{display:flex;gap:10px}
+.field-row .field{flex:1;margin-top:14px}
+.photo-upload{border:1.5px dashed var(--line);border-radius:14px;padding:16px;text-align:center;cursor:pointer;background:var(--bg);margin-top:14px}
+.photo-upload .pu-preview{width:100px;height:100px;margin:0 auto 8px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:36px;overflow:hidden;box-shadow:0 2px 10px rgba(90,70,50,.08)}
+.photo-upload .pu-preview img{width:100%;height:100%;object-fit:contain}
+.photo-upload .pu-text{font-size:12px;color:var(--muted);font-weight:600}
+.photo-upload .pu-hint{font-size:10.5px;color:var(--muted);margin-top:3px;opacity:.75}
+.cut-progress{margin-top:10px;font-size:11.5px;color:var(--primary);font-weight:600;display:flex;align-items:center;gap:6px;justify-content:center}
+.cut-progress .sp{width:14px;height:14px;border:2px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+.big-kg{text-align:center;margin:18px 0 6px}
+.big-kg input{width:100%;border:none;background:none;font-size:52px;font-weight:800;text-align:center;font-family:inherit;color:var(--ink);outline:none;letter-spacing:-2px}
+.big-kg input::placeholder{color:#DDD8D2}
+.big-kg .bk-unit{font-size:16px;color:var(--muted);font-weight:600}
+.pet-picker{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.pp-btn{width:48px;height:48px;border-radius:50%;border:2px solid transparent;background:var(--bg);display:grid;place-items:center;font-size:22px;cursor:pointer;overflow:hidden;padding:0}
+.pp-btn.on{border-color:var(--primary);transform:scale(1.06)}
+.save-btn{width:100%;margin-top:16px;padding:15px;border-radius:14px;border:none;background:var(--olive);color:#fff;font-size:15px;font-weight:750;font-family:inherit;cursor:pointer;box-shadow:0 8px 20px rgba(90,90,60,.28)}
+.pet-opt{display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;border:1.5px solid var(--line);margin-bottom:10px;cursor:pointer;background:#fff}
+.pet-opt.on{border-color:var(--primary);background:var(--primary-soft)}
+.pet-opt .pa{width:48px;height:48px;border-radius:14px;background:var(--bg);display:grid;place-items:center;font-size:22px;flex:none;overflow:hidden}
+.pet-opt .pn{font-size:14px;font-weight:700}
+.pet-opt .ps{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pet-opt .check{margin-left:auto;color:var(--primary);font-weight:800;font-size:16px}
+.triage-progress{display:flex;gap:5px;margin-bottom:16px}
+.tp-seg{flex:1;height:4px;border-radius:999px;background:var(--line)}
+.tp-seg.on{background:var(--primary)}
+.triage-q{font-size:15.5px;font-weight:750;line-height:1.5;margin:0 0 6px}
+.triage-hint{font-size:11.5px;color:var(--muted);margin:0 0 16px}
+.triage-opt{display:flex;align-items:center;gap:12px;padding:14px 15px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;margin-bottom:10px;width:100%;text-align:left}
+.triage-opt .to-emoji{font-size:20px;flex:none}
+.triage-opt .to-arrow{margin-left:auto;color:var(--muted);font-size:16px}
+.triage-note{font-size:11px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6}
+.triage-back{border:none;background:none;font-family:inherit;font-size:12.5px;color:var(--muted);font-weight:600;padding:8px 0;cursor:pointer;margin-bottom:4px}
+.result-light{display:flex;align-items:center;gap:14px;border-radius:16px;padding:16px;margin-bottom:16px}
+.result-light.green{background:var(--green-soft)}
+.result-light.yellow{background:var(--yellow-soft)}
+.result-light.red{background:var(--red-soft)}
+.result-light .rl-icon{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;flex:none}
+.result-light .rl-title{font-size:16px;font-weight:800}
+.result-light .rl-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.result-light.green .rl-title{color:#1F8E73}
+.result-light.yellow .rl-title{color:#B87A0F}
+.result-light.red .rl-title{color:#C63A3A}
+.ai-card{background:linear-gradient(135deg,#F3F0FF,#EAE5FF);border-radius:16px;padding:15px;margin-bottom:14px}
+.ai-head{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.ai-head .ai-icon{width:26px;height:26px;border-radius:9px;background:#fff;display:grid;place-items:center;font-size:14px}
+.ai-head .ai-title{font-size:13px;font-weight:750;color:#5A4BB8}
+.ai-body{font-size:12.5px;line-height:1.7;color:#4A3F8A}
+.ai-body b{color:#3D2F8A}
+.case-title{font-size:13px;font-weight:750;color:var(--muted);margin:18px 2px 10px;display:flex;align-items:center;justify-content:space-between}
+.case-title span{font-size:10.5px;font-weight:600;background:var(--bg);padding:3px 9px;border-radius:999px}
+.case-card{display:flex;align-items:center;gap:11px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:9px;cursor:pointer;font:inherit;text-align:left;width:100%}
+.case-avatar{width:38px;height:38px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:19px;flex:none;overflow:hidden}
+.case-main{flex:1;min-width:0}
+.case-user{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px}
+.case-user .cu-pet{font-size:10.5px;color:var(--muted);font-weight:500}
+.case-text{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.case-go{color:var(--primary);font-size:17px;flex:none;font-weight:700}
+.handover-hero{background:linear-gradient(135deg,#FF9A76,#F2634A);border-radius:16px;padding:16px;color:#fff;margin-bottom:14px}
+.handover-hero h4{margin:0 0 4px;font-size:16px;font-weight:800}
+.handover-hero p{margin:0;font-size:11.5px;opacity:.88}
+.ho-row{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.ho-row:last-child{border-bottom:none}
+.ho-icon{width:34px;height:34px;border-radius:11px;background:var(--bg);display:grid;place-items:center;font-size:16px;flex:none}
+.ho-main{flex:1;min-width:0}
+.ho-label{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.ho-value{font-size:13.5px;font-weight:650;line-height:1.5}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:13px}
+.empty .e{font-size:44px;display:block;margin-bottom:12px;opacity:.6}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="topbar" id="topbar"></header>
+  <main id="view"></main>
+  <nav class="tabbar" id="tabbar"></nav>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const today = new Date(); today.setHours(0,0,0,0);
+const DAY = 86400000;
+const uid = (()=>{let n=100;return()=>'r'+(++n)})();
+function daysAgo(n){ const d=new Date(today); d.setDate(d.getDate()-n); return d; }
+function fmtMD(d){ return (d.getMonth()+1)+'月'+d.getDate()+'日'; }
+function fmtYMD(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function rel(d){
+  const diff=Math.round((today-d)/DAY);
+  if(diff<=0)return'今天'; if(diff===1)return'昨天'; if(diff<7)return diff+'天前';
+  if(diff<30)return Math.floor(diff/7)+'周前'; return Math.floor(diff/30)+'个月前';
+}
+function ageText(birth){
+  const now=new Date(); let y=now.getFullYear()-birth.getFullYear(); let m=now.getMonth()-birth.getMonth();
+  if(m<0||(m===0&&now.getDate()<birth.getDate())){y--;m+=12;}
+  return y>0?(y+'岁'+(m>0?m+'个月':'')):(m+'个月');
+}
+function ageShort(birth, atDate){
+  const ref = atDate || new Date();
+  const diffDays = Math.max(0, Math.round((ref-birth)/DAY));
+  const months = Math.floor(diffDays/30);
+  if(months<1) return Math.max(1,Math.floor(diffDays/7))+'周';
+  if(months<12) return months+'个月';
+  const y = Math.floor(months/12), m = months%12;
+  return y+'岁'+(m>0?m+'个月':'');
+}
+function daysBetween(a,b){ return Math.max(0,Math.round((b-a)/DAY)); }
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fileToDataURL(file){
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
+}
+
+let removeBgFn = null;
+let removeBgState = 'loading';
+(async ()=>{
+  try{
+    const mod = await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/browser.mjs');
+    removeBgFn = mod.removeBackground || mod.default;
+    removeBgState = removeBgFn ? 'ready' : 'failed';
+  }catch(e){ removeBgState = 'failed'; }
+})();
+
+const ICONS = {
+  timeline:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-7-10.2A4.2 4.2 0 0 1 12 8.2 4.2 4.2 0 0 1 19 10.8C19 16.4 12 21 12 21z"/></svg>',
+  health:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5h3.6l2-5.2 3.1 10.4 2-5.2H21"/></svg>',
+  nearby:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.5 7-11.5a7 7 0 1 0-14 0c0 5 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+  community:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.2 8.2 0 0 1-11.9 7.3L4 21l1.8-5.2A8.2 8.2 0 1 1 21 12z"/></svg>'
+};
+
+const state = {
+  pets:[
+    {id:'p1', name:'豆豆', breed:'柯基', emoji:'🐕', gender:'妹妹', birth:daysAgo(760), photo:null},
+    {id:'p2', name:'布丁', breed:'英短蓝猫', emoji:'🐈', gender:'弟弟', birth:daysAgo(1180), photo:null},
+    {id:'p3', name:'老豆', breed:'金毛', emoji:'🦮', gender:'爷爷', birth:daysAgo(4380), senior:true, photo:null}
+  ],
+  currentId:'p1',
+  tab:'timeline',
+  growthView:'chart',
+  nearbyMode:'friends',
+  nearbyLoading:false,
+  topicFilter:'all'
+};
+
+const db = {
+  p1:{
+    records:[
+      {id:uid(), type:'weight', date:daysAgo(0),   kg:11.4, photo:null, title:'今日称重 11.4kg', desc:'体态标准，医生说继续保持'},
+      {id:uid(), type:'weight', date:daysAgo(40),  kg:11.1, photo:null, title:'11.1kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(80),  kg:10.9, photo:null, title:'10.9kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(120), kg:10.6, photo:null, title:'10.6kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(160), kg:10.2, photo:null, title:'10.2kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(200), kg:9.8,  photo:null, title:'9.8kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(240), kg:9.4,  photo:null, title:'9.4kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(400), kg:8.0,  photo:null, title:'8.0kg', desc:'刚接回家'},
+      {id:uid(), type:'vaccine', date:daysAgo(3), title:'接种狂犬疫苗', desc:'康宁宠物医院 · 全程超乖', photo:null},
+      {id:uid(), type:'daily', date:daysAgo(9), title:'第一次洗澡不闹了', desc:'自己走进浴缸，吹毛时直接睡着 🥹', photo:null},
+      {id:uid(), type:'milestone', date:daysAgo(28), title:'学会接飞盘', desc:'练了两周，今天稳稳接住三次', photo:null},
+      {id:uid(), type:'deworm', date:daysAgo(42), title:'体外驱虫 · 福来恩', desc:'无不良反应', photo:null}
+    ],
+    vaccines:[
+      {name:'狂犬疫苗', date:daysAgo(3), place:'康宁宠物医院', next:daysAgo(-362)},
+      {name:'犬四联（第3针）', date:daysAgo(395), place:'康宁宠物医院', next:null},
+      {name:'犬四联（第2针）', date:daysAgo(425), place:'康宁宠物医院', next:null}
+    ],
+    deworm:[
+      {name:'体外驱虫 · 福来恩', date:daysAgo(12), next:daysAgo(-18)},
+      {name:'体内驱虫 · 拜宠清', date:daysAgo(12), next:daysAgo(-18)},
+      {name:'体外驱虫 · 福来恩', date:daysAgo(42), next:null}
+    ],
+    lifeScores:null
+  },
+  p2:{
+    records:[
+      {id:uid(), type:'weight', date:daysAgo(5),  kg:5.2, photo:null, title:'5.2kg', desc:'体重稳定'},
+      {id:uid(), type:'weight', date:daysAgo(55), kg:5.1, photo:null, title:'5.1kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(105),kg:5.0, photo:null, title:'5.0kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(155),kg:4.9, photo:null, title:'4.9kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(205),kg:4.7, photo:null, title:'4.7kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(255),kg:4.4, photo:null, title:'4.4kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(305),kg:4.1, photo:null, title:'4.1kg', desc:''},
+      {id:uid(), type:'daily', date:daysAgo(1), title:'霸占了我的键盘', desc:'视频会议时直接躺上来了', photo:null},
+      {id:uid(), type:'vaccine', date:daysAgo(30), title:'猫三联加强针', desc:'喵星宠物医院', photo:null},
+      {id:uid(), type:'milestone', date:daysAgo(70), title:'学会握手', desc:'用冻干训练三天学会', photo:null},
+      {id:uid(), type:'deworm', date:daysAgo(88), title:'体内外驱虫 · 大宠爱', desc:'无不良反应', photo:null}
+    ],
+    vaccines:[
+      {name:'猫三联加强针', date:daysAgo(30), place:'喵星宠物医院', next:daysAgo(-335)},
+      {name:'狂犬疫苗', date:daysAgo(300), place:'喵星宠物医院', next:null}
+    ],
+    deworm:[
+      {name:'体内外驱虫 · 大宠爱', date:daysAgo(88), next:daysAgo(-2)},
+      {name:'体内驱虫 · 拜宠清', date:daysAgo(120), next:null}
+    ],
+    lifeScores:null
+  },
+  p3:{
+    records:[
+      {id:uid(), type:'weight', date:daysAgo(10), kg:29.8, photo:null, title:'29.8kg', desc:'轻度下降，老年犬正常'},
+      {id:uid(), type:'weight', date:daysAgo(90), kg:30.1, photo:null, title:'30.1kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(170),kg:30.6, photo:null, title:'30.6kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(250),kg:31.2, photo:null, title:'31.2kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(330),kg:31.8, photo:null, title:'31.8kg', desc:''},
+      {id:uid(), type:'weight', date:daysAgo(410),kg:32.5, photo:null, title:'32.5kg', desc:''},
+      {id:uid(), type:'health', date:daysAgo(2), title:'关节保养第 30 天', desc:'跛行明显减少', photo:null},
+      {id:uid(), type:'health', date:daysAgo(45), title:'白内障复查', desc:'初期，暂不需手术', photo:null},
+      {id:uid(), type:'vaccine', date:daysAgo(45), title:'老年犬年度体检 + 疫苗', desc:'血检正常', photo:null},
+      {id:uid(), type:'deworm', date:daysAgo(60), title:'体外驱虫 · 福来恩', desc:'常规驱虫', photo:null},
+      {id:uid(), type:'milestone', date:daysAgo(120), title:'12 岁生日', desc:'金毛平均寿命 10-12 岁，老豆是长寿宝宝', photo:null}
+    ],
+    vaccines:[
+      {name:'老年犬年度加强', date:daysAgo(45), place:'康宁宠物医院', next:daysAgo(-320)},
+      {name:'狂犬疫苗', date:daysAgo(45), place:'康宁宠物医院', next:daysAgo(-320)}
+    ],
+    deworm:[
+      {name:'体外驱虫 · 福来恩', date:daysAgo(60), next:daysAgo(-30)},
+      {name:'体内驱虫 · 拜宠清', date:daysAgo(60), next:daysAgo(-30)}
+    ],
+    lifeScores:[
+      {date:daysAgo(90), scores:[4,4,4,4,4]},
+      {date:daysAgo(60), scores:[4,4,3,4,3]},
+      {date:daysAgo(30), scores:[3,4,3,4,3]},
+      {date:daysAgo(5),  scores:[3,4,3,3,3]}
+    ]
+  }
+};
+
+const posts = [
+  {id:'post-0', avatar:'🐕', user:'豆豆麻麻', pet:'柯基 · 2岁', time:'2小时前', text:'豆豆今天第一次在公园里成功接住了飞盘！练了两周，柯基的执念真的很强 😂 附上记录的第 28 天打卡。', emoji:'🥏', likes:42, liked:false, tags:['#遛狗日常','#柯基'], commentsList:[
+    {user:'小满', avatar:'🐕', text:'好厉害！橘子练了一个月还只会追着跑', time:'1小时前'},
+    {user:'阿茶', avatar:'🐩', text:'柯基接飞盘的样子真的超帅', time:'30分钟前'}
+  ]},
+  {id:'post-1', avatar:'🐈', user:'十一', pet:'英短 · 3岁', time:'5小时前', text:'请教一下各位，猫咪换粮期软便怎么办？新旧粮已经混了一周了，益生菌也喂了…有点焦虑。', emoji:'🍚', likes:12, liked:false, tags:['#新手求助','#养猫经验','#软便'], commentsList:[
+    {user:'老周', avatar:'🦮', text:'我家大福换粮也软便，7天过渡法 + 益生菌坚持一周就稳了', time:'4小时前'},
+    {user:'Lily', avatar:'🐈‍⬛', text:'建议先停一下新粮，等稳定了再慢慢加', time:'3小时前'}
+  ]},
+  {id:'post-2', avatar:'🐕', user:'小满', pet:'柯基 · 2岁', time:'昨天', text:'橘子昨天吐了两次，精神还行，禁食 4 小时后喂了点温水和小米粥，今天已经恢复了。分享给同样焦虑的柯基家长们。', emoji:'🤢', likes:23, liked:false, tags:['#呕吐','#经验分享'], commentsList:[
+    {user:'豆豆麻麻', avatar:'🐕', text:'谢谢分享！收藏了', time:'昨天'}
+  ]},
+  {id:'post-3', avatar:'🐩', user:'阿茶', pet:'比熊 · 4岁', time:'昨天', text:'给年糕做了个宠物生日蛋糕，鸡胸肉 + 南瓜 + 羊酸奶，它吃得头都不抬 🎂', emoji:'🎂', likes:88, liked:false, tags:['#宠物烘焙'], commentsList:[
+    {user:'十一', avatar:'🐈', text:'求配方！', time:'昨天'},
+    {user:'豆豆麻麻', avatar:'🐕', text:'太可爱了，豆豆生日也想做', time:'20小时前'},
+    {user:'小满', avatar:'🐕', text:'南瓜和鸡胸肉的比例是多少呀', time:'18小时前'}
+  ]},
+  {id:'post-4', avatar:'🦮', user:'老周', pet:'金毛 · 8岁', time:'2天前', text:'大福 8 岁了，体检报告一切正常。想说的是：大型犬一定要控制体重，关节真的伤不起。', emoji:'🩺', likes:156, liked:false, tags:['#健康科普','#金毛','#老龄护理'], commentsList:[
+    {user:'Lily', avatar:'🐈‍⬛', text:'+1，控制体重真的太重要了', time:'2天前'},
+    {user:'阿茶', avatar:'🐩', text:'请问平时喂什么关节保健品', time:'1天前'}
+  ]},
+  {id:'post-5', avatar:'🐈‍⬛', user:'Lily', pet:'布偶 · 2岁', time:'3天前', text:'芝麻最近频繁蹲猫砂，尿量很少，去医院查了是膀胱炎。医生说是应激引起，提醒大家猫砂盆一定要多放几个。', emoji:'🚽', likes:45, liked:false, tags:['#泌尿','#经验分享'], commentsList:[
+    {user:'十一', avatar:'🐈', text:'我家煤球也是，多猫家庭真的要有 n+1 个猫砂盆', time:'3天前'}
+  ]},
+  {id:'post-6', avatar:'🐕', user:'大熊', pet:'拉布拉多 · 1岁', time:'4天前', text:'拆家第 100 天，终于找到原因了——分离焦虑。用了笼内训练 + 出门前 10 分钟不理它，一周后明显好转。', emoji:'🛋️', likes:67, liked:false, tags:['#行为矫正','#分离焦虑','#拆家'], commentsList:[
+    {user:'小满', avatar:'🐕', text:'笼内训练怎么开始比较好', time:'4天前'},
+    {user:'阿茶', avatar:'🐩', text:'出门前冷处理真的有用', time:'3天前'}
+  ]},
+  {id:'post-7', avatar:'🐈', user:'十一', pet:'英短 · 3岁', time:'5天前', text:'煤球尿血，半夜急诊，是结石。泌尿问题真的不能拖，发现频繁蹲猫砂一定要马上就医。', emoji:'🚨', likes:89, liked:false, tags:['#泌尿','#急诊','#尿血'], commentsList:[
+    {user:'Lily', avatar:'🐈‍⬛', text:'吓到我了，幸好没事', time:'5天前'},
+    {user:'老周', avatar:'🦮', text:'急诊真的不能拖', time:'4天前'}
+  ]},
+  {id:'post-8', avatar:'🦮', user:'老周', pet:'金毛 · 12岁', time:'1周前', text:'老豆的关节保养心得，12 岁了还能慢跑。核心三件事：控制体重、补充氨糖、避免上下楼梯。', emoji:'🦴', likes:203, liked:false, tags:['#老龄护理','#关节'], commentsList:[
+    {user:'豆豆麻麻', avatar:'🐕', text:'收藏，豆豆老了也这么养', time:'1周前'},
+    {user:'十一', avatar:'🐈', text:'请问氨糖是什么品牌', time:'6天前'}
+  ]},
+  {id:'post-9', avatar:'🐕', user:'小满', pet:'柯基 · 2岁', time:'1周前', text:'橘子乱拉乱尿终于纠正了！关键是固定时间带出门 + 拉对地方立刻奖励，两周见效。', emoji:'🐾', likes:56, liked:false, tags:['#行为矫正','#如厕训练','#乱拉乱尿'], commentsList:[]},
+  {id:'post-10', avatar:'🦮', user:'老周', pet:'金毛 · 12岁', time:'2周前', text:'记录一下老豆最近的生活质量评分，从 20 分降到 16 分，主要是活动度下降了。开始给它加铺防滑垫。', emoji:'📋', likes:78, liked:false, tags:['#老龄护理','#生活质量'], commentsList:[
+    {user:'Lily', avatar:'🐈‍⬛', text:'生活质量评分是个很好的工具', time:'2周前'}
+  ]},
+  {id:'post-11', avatar:'🐈', user:'十一', pet:'英短 · 3岁', time:'2周前', text:'煤球呕吐黄水，精神一般，医生说是毛球，喂了化毛膏就好了。提醒：长毛猫一定要定期梳毛。', emoji:'🤮', likes:34, liked:false, tags:['#呕吐','#毛球'], commentsList:[]}
+];
+
+const friends = [
+  {id:'f1', emoji:'🐕', pet:'橘子', breed:'柯基', owner:'小满', dist:0.4, tags:['同小区','同龄'], online:true, hello:false, postIds:['post-2','post-9']},
+  {id:'f2', emoji:'🐩', pet:'年糕', breed:'比熊', owner:'阿茶', dist:0.8, tags:['爱玩飞盘'], online:true, hello:false, postIds:['post-3']},
+  {id:'f3', emoji:'🐈', pet:'煤球', breed:'英短蓝猫', owner:'十一', dist:1.2, tags:['同品种'], online:false, hello:false, postIds:['post-1','post-7','post-11']},
+  {id:'f4', emoji:'🦮', pet:'大福', breed:'金毛', owner:'老周', dist:1.9, tags:['遛狗搭子','老龄犬'], online:true, hello:false, postIds:['post-4','post-8','post-10']},
+  {id:'f5', emoji:'🐈‍⬛', pet:'芝麻', breed:'布偶', owner:'Lily', dist:2.6, tags:['新手交流'], online:false, hello:false, postIds:['post-5']},
+  {id:'f6', emoji:'🐕', pet:'大熊', breed:'拉布拉多', owner:'大熊', dist:3.1, tags:['大型犬'], online:false, hello:false, postIds:[]}
+];
+
+const caregiversAll = [
+  {emoji:'👩', name:'小李', score:4.9, dist:0.8, service:'上门喂养', price:'¥45 / 次', tags:['已实名','视频打卡','春节可约'], badge:'实名', type:'feed'},
+  {emoji:'👨', name:'阿杰', score:4.8, dist:1.2, service:'上门喂养 + 遛狗', price:'¥60 / 次', tags:['已实名','持宠物护理证'], badge:'持证', type:'walk'},
+  {emoji:'👩‍🦰', name:'Yuki', score:4.9, dist:1.8, service:'上门喂养 · 猫咪专长', price:'¥50 / 次', tags:['已实名','只接猫','有猫家庭'], badge:'猫专', type:'cat'},
+  {emoji:'🧑', name:'老周', score:5.0, dist:2.1, service:'遛狗 + 上门喂养', price:'¥55 / 次', tags:['已实名','自家养金毛'], badge:'实名', type:'walk'},
+  {emoji:'👩‍🦱', name:'小夏', score:4.7, dist:2.8, service:'上门喂养', price:'¥48 / 次', tags:['已实名','有监控','接受夜班'], badge:'实名', type:'feed'},
+  {emoji:'🧔', name:'阿凯', score:4.6, dist:3.4, service:'遛狗', price:'¥40 / 次', tags:['已实名','大型犬经验'], badge:'实名', type:'walk'}
+];
+
+const TRIAGE_SYSTEMS = [
+  {id:'digestive', label:'消化系统', icon:'🍽️', symptoms:[
+    {id:'vomit', label:'呕吐'},{id:'diarrhea', label:'软便 / 腹泻'},
+    {id:'appetite', label:'食欲不振'},{id:'blood-stool', label:'便血'}
+  ]},
+  {id:'skin', label:'皮肤毛发', icon:'🩹', symptoms:[
+    {id:'itch', label:'频繁瘙痒'},{id:'hairloss', label:'局部脱毛'},{id:'rash', label:'红疹 / 结痂'}
+  ]},
+  {id:'urinary', label:'泌尿系统', icon:'🚽', symptoms:[
+    {id:'freq', label:'频繁蹲猫砂'},{id:'blood-urine', label:'尿中带血'},{id:'block', label:'排尿困难'}
+  ]},
+  {id:'behavior', label:'行为异常', icon:'🐾', symptoms:[
+    {id:'pee', label:'乱拉乱尿'},{id:'destroy', label:'拆家'},{id:'night', label:'夜间跑酷'},{id:'bite', label:'抓人 / 咬人'}
+  ]},
+  {id:'mental', label:'精神状态', icon:'😿', symptoms:[
+    {id:'lethargy', label:'嗜睡 / 不爱动'},{id:'noeat', label:'不吃不喝'},{id:'fever', label:'发热 / 呼吸快'}
+  ]}
+];
+
+const TRIAGE_QS = [
+  {q:'持续多久了？', hint:'越久越需要重视', opts:[
+    {t:'半天内', emoji:'🕐', w:0},{t:'1-2 天', emoji:'📅', w:1},{t:'3 天以上', emoji:'⚠️', w:3}
+  ]},
+  {q:'严重程度如何？', hint:'选最接近的', opts:[
+    {t:'偶尔出现', emoji:'🟢', w:0},{t:'每天几次', emoji:'🟡', w:1},{t:'持续 / 频繁', emoji:'🔴', w:3}
+  ]},
+  {q:'精神和进食状态？', hint:'这是最重要的判断依据', opts:[
+    {t:'正常', emoji:'😊', w:0},{t:'略差，但还吃', emoji:'😐', w:1},{t:'明显萎靡 / 不吃', emoji:'😞', w:3}
+  ]},
+  {q:'有没有以下危险信号？', hint:'血 / 呼吸 / 意识', opts:[
+    {t:'都没有', emoji:'✅', w:0},{t:'不确定', emoji:'🤔', w:1},{t:'有血 / 呼吸急促 / 意识模糊', emoji:'🚨', w:4}
+  ]}
+];
+
+const SYMPTOM_INFO = {
+  'vomit':{ai:'短期呕吐、精神尚可、仍进食，常见方向是<b>饮食不当、异物误食、肠胃炎</b>。可先禁食 4-6 小时观察，少量多次喂温水。若超过 48h、出现血便或精神萎靡，立即就医。', tagMatch:['呕吐']},
+  'diarrhea':{ai:'软便 / 腹泻最常见的是<b>换粮过快、应激、寄生虫</b>。建议新旧粮按 7 天过渡，配合益生菌。若带血、持续超过 3 天或伴随呕吐，需要就医排查。', tagMatch:['软便']},
+  'appetite':{ai:'食欲下降可能是<b>口腔问题、肠胃不适、情绪应激或慢性病</b>。先检查口腔有无溃疡，观察 24h。若完全不吃超过 24h（猫）或 48h（狗），需就医。', tagMatch:['新手求助']},
+  'blood-stool':{ai:'便血是<b>明确需要就医的信号</b>。可能是寄生虫、肠炎、异物划伤或更严重的问题。请拍照记录便便状态，尽快带去宠物医院。', tagMatch:['急诊']},
+  'itch':{ai:'频繁瘙痒常见于<b>跳蚤、螨虫、真菌或食物过敏</b>。先检查皮肤有无红点、结痂、脱毛。若伴随脱毛或皮肤发红，建议皮肤刮片检查。', tagMatch:['经验分享']},
+  'hairloss':{ai:'局部脱毛可能是<b>真菌（猫癣）、螨虫、内分泌问题</b>。若边缘整齐、有皮屑，猫癣可能性大，注意人宠共患。建议就医做伍德氏灯或真菌培养。', tagMatch:['经验分享']},
+  'rash':{ai:'红疹 / 结痂可能是<b>湿疹、过敏、细菌感染</b>。避免抓挠，保持干燥。若扩散快或流脓，尽快就医。', tagMatch:['经验分享']},
+  'freq':{ai:'频繁蹲猫砂但尿量少，是<b>泌尿系统急症的高危信号</b>，尤其公猫。若完全尿不出，<b>24h 内可能危及生命</b>，请立即急诊。', tagMatch:['泌尿']},
+  'blood-urine':{ai:'尿中带血可能是<b>膀胱炎、结石、感染</b>。请立即就医，不要拖延。同时保留尿样照片给医生参考。', tagMatch:['泌尿','尿血']},
+  'block':{ai:'排尿困难、频繁叫、蹲很久没尿，是<b>尿道阻塞的紧急信号</b>。请在 2 小时内送医，否则可能肾衰。', tagMatch:['泌尿','急诊']},
+  'pee':{ai:'乱拉乱尿通常不是"报复"，而是<b>如厕训练未完成、猫砂盆不合适、应激或健康问题</b>。先排除泌尿疾病，再调整环境与训练。', tagMatch:['乱拉乱尿','如厕训练']},
+  'destroy':{ai:'拆家常见原因是<b>分离焦虑、运动量不足、换牙期</b>。建议增加运动、提供咬胶、出门前 10 分钟冷处理。严重分离焦虑需行为训练介入。', tagMatch:['拆家','行为矫正']},
+  'night':{ai:'夜间跑酷在猫中很常见，是<b>昼夜节律问题</b>。建议睡前 30 分钟陪玩消耗精力，喂一顿主食，白天增加环境丰富度。', tagMatch:['行为矫正']},
+  'bite':{ai:'抓人 / 咬人可能是<b>幼猫社会化不足、玩耍攻击、恐惧防御</b>。不要用手逗玩，被咬时立即停止互动。严重情况建议咨询行为训练师。', tagMatch:['行为矫正']},
+  'lethargy':{ai:'嗜睡 / 不爱动可能是<b>发热、疼痛、贫血、慢性病</b>。先测体温（狗 38-39℃，猫 38-39.2℃）。若伴随不吃、呼吸快，尽快就医。', tagMatch:['老龄护理']},
+  'noeat':{ai:'不吃不喝是<b>明确的危险信号</b>，猫超过 24h 不进食可能引发脂肪肝。请立即就医，不要在家观察。', tagMatch:['新手求助']},
+  'fever':{ai:'发热 / 呼吸快可能是<b>感染、中暑、疼痛或心肺问题</b>。先移到阴凉处、补充水分。若呼吸急促或张口呼吸，立即急诊。', tagMatch:['急诊']}
+};
+
+let sheet = null;
+let draftType = null;
+let draftPhoto = null;
+let draftPetId = 'p1';
+let draftKg = '';
+let draftNote = '';
+let draftDate = fmtYMD(today);
+let draftTime = '18:00';
+let triage = null;
+let lifeDraft = null;
+let handoverPetId = null;
+let currentCareFilter = 'all';
+let careMatchSeed = 0;
+
+const currentPet = () => state.pets.find(p=>p.id===state.currentId);
+const isSenior = (p) => !!p.senior;
+
+function topbarHTML(){
+  const p = currentPet();
+  const d = db[p.id];
+  const weights = d.records.filter(r=>r.type==='weight' && r.kg).sort((a,b)=>a.date-b.date);
+  const lastW = weights.length ? weights[weights.length-1].kg : '—';
+  return `
+    <button class="pet-chip" data-act="switchPet">
+      <div class="pet-avatar">${p.photo?`<img src="${p.photo}">`:p.emoji}</div>
+      <div class="pet-meta">
+        <div class="pet-name">${p.name}<span class="caret">▾</span></div>
+        <div class="pet-sub">${p.breed} · ${ageText(p.birth)} · ${lastW}kg</div>
+      </div>
+    </button>
+    <button class="icon-btn" data-act="add" aria-label="添加记录">+</button>
+  `;
+}
+
+function weightRecords(pet){
+  return db[pet.id].records.filter(r=>r.type==='weight' && r.kg).sort((a,b)=>a.date-b.date);
+}
+
+function growthChartSVG(pet){
+  const data = weightRecords(pet);
+  if(!data.length) return `<div class="empty"><span class="e">⚖️</span>还没有体重记录<br>点右上角「+」记录第一次吧</div>`;
+  const n = data.length;
+  const nodeW = 84;
+  const padL = 30, padR = 24;
+  const W = Math.max(340, padL + padR + (n-1)*nodeW);
+  const H = 280;
+  const chartTop = 24, chartBottom = 120, photoTop = 138;
+  const vals = data.map(d=>d.kg);
+  let min = Math.min(...vals), max = Math.max(...vals);
+  if(max-min < 0.8){ const c=(max+min)/2; min=c-0.4; max=c+0.4; }
+  const pd = (max-min)*0.18; min-=pd; max+=pd;
+  const X = i => padL + i*nodeW;
+  const Y = v => chartTop + (chartBottom-chartTop)*(1-(v-min)/(max-min));
+  let grid = '';
+  for(let g=0;g<=3;g++){
+    const v = min + (max-min)*(g/3);
+    const y = Y(v);
+    grid += `<line x1="${padL-10}" y1="${y.toFixed(1)}" x2="${W-padR+6}" y2="${y.toFixed(1)}" stroke="#EDE9E3" stroke-width="1"/>`;
+    grid += `<text x="${padL-14}" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#9A938B">${v.toFixed(1)}</text>`;
+  }
+  const pts = data.map((d,i)=>[X(i),Y(d.kg)]);
+  const line = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area = line + ` L ${pts[n-1][0].toFixed(1)} ${chartBottom} L ${pts[0][0].toFixed(1)} ${chartBottom} Z`;
+  let nodes = '';
+  data.forEach((d,i)=>{
+    const x = X(i), y = Y(d.kg);
+    const cx = x, cy = photoTop + 26;
+    const gid = 'clip-'+pet.id+'-'+i;
+    const photo = d.photo || pet.photo;
+    nodes += `<defs><clipPath id="${gid}"><circle cx="${cx}" cy="${cy}" r="26"/></clipPath></defs>`;
+    if(photo){
+      nodes += `<image href="${photo}" x="${cx-26}" y="${cy-26}" width="52" height="52" clip-path="url(#${gid})" preserveAspectRatio="xMidYMid slice"/>`;
+      nodes += `<circle cx="${cx}" cy="${cy}" r="26" fill="none" stroke="#fff" stroke-width="3"/>`;
+    } else {
+      nodes += `<circle cx="${cx}" cy="${cy}" r="26" fill="#FFF1E9" stroke="#fff" stroke-width="3"/>`;
+      nodes += `<text x="${cx}" y="${cy+9}" text-anchor="middle" font-size="26">${pet.emoji}</text>`;
+    }
+    nodes += `<line x1="${x}" y1="${y}" x2="${x}" y2="${cy-28}" stroke="#EDE9E3" stroke-width="1.2" stroke-dasharray="2 3"/>`;
+    nodes += `<circle cx="${x}" cy="${y}" r="4.5" fill="#FF7A59" stroke="#fff" stroke-width="2.2"/>`;
+    nodes += `<text x="${x}" y="${cy+48}" text-anchor="middle" font-size="13" font-weight="800" fill="#2B2A28">${d.kg}<tspan font-size="10" fill="#9A938B" font-weight="600"> kg</tspan></text>`;
+    nodes += `<text x="${x}" y="${cy+62}" text-anchor="middle" font-size="9.5" fill="#9A938B">${fmtMD(d.date)}</text>`;
+    nodes += `<text x="${x}" y="${cy+75}" text-anchor="middle" font-size="9.5" fill="#9A938B">${ageShort(pet.birth, d.date)}</text>`;
+  });
+  return `
+    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="min-width:${W}px">
+      <defs>
+        <linearGradient id="wg-${pet.id}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FF7A59" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#FF7A59" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      ${grid}
+      <path d="${area}" fill="url(#wg-${pet.id})"/>
+      <path d="${line}" fill="none" stroke="#FF7A59" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      ${nodes}
+    </svg>`;
+}
+
+function timelineListHTML(pet){
+  const list = db[pet.id].records.slice().sort((a,b)=>b.date-a.date);
+  if(!list.length) return `<div class="empty"><span class="e">🐾</span>还没有记录<br>点右上角「+」添加第一条吧</div>`;
+  const tagMap = {weight:['健康档案','health'], vaccine:['健康档案','health'], deworm:['健康档案','health'], health:['健康档案','health'], daily:['养宠日常',''], milestone:['成长里程碑','']};
+  return list.map(r=>{
+    const [label, cls] = tagMap[r.type] || ['记录',''];
+    const icon = r.photo
+      ? `<img src="${r.photo}">`
+      : ({weight:'⚖️',vaccine:'💉',deworm:'🐛',health:'🩺',daily:'📷',milestone:'🏆'}[r.type]||'📌');
+    return `
+      <div class="tl-item">
+        <div class="tl-rail"><div class="tl-dot">${icon}</div><div class="tl-line"></div></div>
+        <div class="tl-body">
+          <div class="tl-date">${fmtMD(r.date)} · ${rel(r.date)}${r.kg?` · ${r.kg}kg`:''}</div>
+          <div class="tl-card">
+            <div class="tl-title">${esc(r.title||'')}</div>
+            ${r.desc?`<div class="tl-desc">${esc(r.desc)}</div>`:''}
+            <div class="tl-tag ${cls}">${label}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function verticalTimelineHTML(pet){
+  const list = db[pet.id].records.slice().sort((a,b)=>b.date-a.date);
+  if(!list.length) return `<div class="empty"><span class="e">🐾</span>还没有记录</div>`;
+  return `<div class="vtl">${list.map((r,i)=>{
+    const side = i%2===0 ? 'left' : 'right';
+    const icon = ({weight:'⚖️',vaccine:'💉',deworm:'🐛',health:'🩺',daily:'📷',milestone:'🏆'}[r.type]||'📌');
+    const photo = r.photo || pet.photo;
+    const imgHtml = photo ? `<img src="${photo}">` : icon;
+    return `
+      <div class="vtl-item ${side}">
+        <div class="vtl-dot"></div>
+        <div class="vtl-card">
+          <div class="vtl-photo">${imgHtml}</div>
+          <div class="vtl-date">${fmtMD(r.date)} · ${ageShort(pet.birth, r.date)}</div>
+          ${r.kg ? `<div class="vtl-kg">${r.kg}<span>kg</span></div>` : `<div style="font-size:13.5px;font-weight:700;margin:6px 0 2px;line-height:1.4">${esc(r.title||'')}</div>`}
+          ${r.desc?`<div class="vtl-note">${esc(r.desc)}</div>`:''}
+        </div>
+      </div>`;
+  }).join('')}</div>`;
+}
+
+function timelineView(){
+  const p = currentPet();
+  const d = db[p.id];
+  const days = daysBetween(p.birth, new Date());
+  const weights = weightRecords(p);
+  const lastW = weights.length ? weights[weights.length-1].kg : '—';
+  const nextDeworm = d.deworm.find(x=>x.next);
+  const dewormLeft = nextDeworm ? Math.round((nextDeworm.next - today)/DAY) : null;
+  return `
+    <div class="hero ${isSenior(p)?'senior':''}">
+      <div class="hero-row">
+        <div class="hero-avatar">${p.photo?`<img src="${p.photo}">`:p.emoji}</div>
+        <div>
+          <div class="hero-title">陪伴第 <b>${days}</b> 天</div>
+          <div class="hero-sub">${p.name} · ${p.gender} · ${ageText(p.birth)}${isSenior(p)?' · 老年期':''}</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>${lastW}</b><span>当前体重 (kg)</span></div>
+        <div class="stat"><b>${d.vaccines.length}</b><span>疫苗记录</span></div>
+        <div class="stat"><b>${dewormLeft!==null?dewormLeft+'天':'—'}</b><span>距下次驱虫</span></div>
+      </div>
+    </div>
+    <div class="view-switch">
+      <button class="vs-btn ${state.growthView==='chart'?'on':''}" data-act="growthView" data-v="chart">折线图 + 时间线</button>
+      <button class="vs-btn ${state.growthView==='vtl'?'on':''}" data-act="growthView" data-v="vtl">竖向融合时间线</button>
+    </div>
+    ${state.growthView==='chart' ? `
+      <div class="card">
+        <div class="card-head"><h3>体重成长图</h3><span class="pill">${weights.length} 次记录</span></div>
+        <div class="chart-scroll">${growthChartSVG(p)}</div>
+      </div>
+      <div class="sec-title">成长时间线</div>
+      ${timelineListHTML(p)}
+    ` : `
+      <div class="sec-title">竖向成长时间线</div>
+      ${verticalTimelineHTML(p)}
+    `}
+  `;
+}
+
+function miniWeightSVG(pet){
+  const data = weightRecords(pet).slice(-6);
+  if(data.length<2) return '';
+  const W=100,H=36,pad=4;
+  const vals=data.map(d=>d.kg);
+  let min=Math.min(...vals),max=Math.max(...vals);
+  if(max-min<0.5){const c=(max+min)/2;min=c-0.25;max=c+0.25;}
+  const X=i=>pad+(W-2*pad)*i/(data.length-1);
+  const Y=v=>pad+(H-2*pad)*(1-(v-min)/(max-min));
+  const pts=data.map((d,i)=>[X(i),Y(d.kg)]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const color = isSenior(pet) ? '#7C6BE0' : '#FF7A59';
+  const last=pts[pts.length-1];
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:36px;display:block">
+    <path d="${line}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.8"/>
+  </svg>`;
+}
+
+function miniWeightCardHTML(){
+  const p = currentPet();
+  const weights = weightRecords(p);
+  if(!weights.length) return '';
+  const last = weights[weights.length-1];
+  const prev = weights.length>1 ? weights[weights.length-2] : null;
+  const delta = prev ? +(last.kg - prev.kg).toFixed(1) : 0;
+  return `
+    <button class="mini-weight" data-act="gotoGrowth">
+      <div>
+        <div class="mw-num">${last.kg}<span>kg</span></div>
+        <div class="mw-sub">${prev?`${delta>=0?'↑':'↓'} ${Math.abs(delta)} 较上次`:'首次记录'}</div>
+      </div>
+      <div class="mw-chart">${miniWeightSVG(p)}</div>
+      <div class="mw-go">›</div>
+    </button>`;
+}
+
+function triageEntryHTML(){
+  return `
+    <button class="triage-entry" data-act="openTriage">
+      <div class="te-icon">🩺</div>
+      <div>
+        <div class="te-title">症状自查 · 该不该去医院</div>
+        <div class="te-sub">3 步问答，按品种 + 年龄 + 体况匹配判断</div>
+      </div>
+      <div class="te-go">›</div>
+    </button>`;
+}
+
+function seniorEntryHTML(){
+  const p = currentPet();
+  const d = db[p.id];
+  const hist = d.lifeScores || [];
+  const last = hist[hist.length-1];
+  const total = last ? last.scores.reduce((a,b)=>a+b,0) : 0;
+  const maxTotal = 25;
+  const prev = hist[hist.length-2];
+  const prevTotal = prev ? prev.scores.reduce((a,b)=>a+b,0) : null;
+  const delta = prevTotal!==null ? total - prevTotal : 0;
+  if(!lifeDraft) lifeDraft = last ? [...last.scores] : [3,3,3,3,3];
+  const labels = ['疼痛','食欲','活动','情绪','睡眠'];
+  const rows = labels.map((lb,i)=>`
+    <div class="score-row">
+      <div class="sr-label">${lb}</div>
+      <div class="sr-bar"><input type="range" min="1" max="5" step="1" value="${lifeDraft[i]}" data-act="scoreChange" data-i="${i}"></div>
+      <div class="sr-val" id="score-val-${i}">${lifeDraft[i]}</div>
+    </div>`).join('');
+  const curTotal = lifeDraft.reduce((a,b)=>a+b,0);
+  return `
+    <div class="senior-entry">
+      <div class="senior-head">
+        <div class="se-icon">🦴</div>
+        <div>
+          <div class="se-title">${p.name} · 老年关怀</div>
+          <div class="se-sub">生活质量评分 · 上次 ${total}/${maxTotal} 分${prevTotal!==null?` · ${delta>=0?'↑':'↓'}${Math.abs(delta)}`:''}</div>
+        </div>
+      </div>
+      ${rows}
+      <div class="score-summary">
+        <div class="ss-total"><b id="score-total">${curTotal}</b>/ ${maxTotal} 分</div>
+        <button class="score-save" data-act="saveLifeScore">记录今日评分</button>
+      </div>
+      ${hist.length>1?`<div class="score-trend">📈 近 ${hist.length} 次趋势：${hist.map(h=>h.scores.reduce((a,b)=>a+b,0)).join(' → ')}</div>`:''}
+    </div>`;
+}
+
+function healthView(){
+  const p = currentPet();
+  const d = db[p.id];
+  const vac = d.vaccines.map(v=>`
+    <div class="row">
+      <div class="row-icon green">💉</div>
+      <div class="row-main">
+        <div class="row-title">${esc(v.name)}</div>
+        <div class="row-sub">${fmtYMD(v.date)} · ${esc(v.place)}${v.next?` · 下次 ${fmtYMD(v.next)}`:''}</div>
+      </div>
+      <div class="row-status ok">已完成</div>
+    </div>`).join('');
+  const dew = d.deworm.map(v=>{
+    const left = v.next ? Math.round((v.next - today)/DAY) : null;
+    const soon = left!==null && left <= 7;
+    return `
+      <div class="row">
+        <div class="row-icon blue">🐛</div>
+        <div class="row-main">
+          <div class="row-title">${esc(v.name)}</div>
+          <div class="row-sub">${fmtYMD(v.date)}${v.next?` · 下次 ${fmtYMD(v.next)}`:''}</div>
+        </div>
+        <div class="row-status ${soon?'soon':'ok'}">${left===null?'已完成':(left<0?'已到期':left+'天后')}</div>
+      </div>`;
+  }).join('');
+  const nextDeworm = d.deworm.find(x=>x.next);
+  const dewormLeft = nextDeworm ? Math.max(0,Math.round((nextDeworm.next-today)/DAY)) : null;
+  return `
+    <div class="sec-title">健康 · ${p.name}</div>
+    ${miniWeightCardHTML()}
+    ${triageEntryHTML()}
+    ${isSenior(p) ? seniorEntryHTML() : ''}
+    <div class="card">
+      <div class="card-head"><h3>疫苗记录</h3><span class="pill">${d.vaccines.length} 条</span></div>
+      ${vac}
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>驱虫记录</h3><span class="pill">${d.deworm.length} 条</span></div>
+      ${dew}
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#FFF6F2,#FFEFE9);box-shadow:none">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <div style="font-size:18px">💡</div>
+        <div style="font-size:12.5px;line-height:1.65;color:#8A6A5E">
+          <b style="color:#E2603F">健康提醒</b><br>
+          ${p.name} 下次体外驱虫还有 ${dewormLeft!==null?dewormLeft:'—'} 天，记得提前备好滴剂。
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function friendCardHTML(f, i){
+  const latestPost = f.postIds.length ? posts.find(p=>p.id===f.postIds[f.postIds.length-1]) : null;
+  const postBlock = latestPost ? `
+    <div class="friend-posts">
+      <div class="fp-label">📝 最近日常</div>
+      <button class="fp-card" data-act="goPost" data-post="${latestPost.id}">
+        <div class="fp-time">${latestPost.time}</div>
+        ${esc(latestPost.text.slice(0,40))}${latestPost.text.length>40?'…':''}
+      </button>
+    </div>` : `
+    <div class="friend-posts">
+      <div class="fp-label">📝 最近日常</div>
+      <div class="fp-empty">TA 还没有发布日常</div>
+    </div>`;
+  return `
+    <div class="friend">
+      <div class="friend-top">
+        <div class="f-avatar">${f.emoji}<span class="dot ${f.online?'on':''}"></span></div>
+        <div class="f-main">
+          <div class="f-name">${f.pet} <span style="font-weight:400;color:var(--muted);font-size:11.5px">· ${f.breed}</span></div>
+          <div class="f-sub">${f.owner} · 距离你 ${f.dist}km</div>
+          <div class="f-tags">${f.tags.map(t=>`<span class="f-tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      ${postBlock}
+      <div class="friend-acts">
+        <button class="fa-btn primary ${f.hello?'done':''}" data-act="hello" data-i="${i}">${f.hello?'已打招呼':'打招呼'}</button>
+        <button class="fa-btn ghost" data-act="viewDaily" data-i="${i}">看日常</button>
+      </div>
+    </div>`;
+}
+
+function nearbyFriendsView(){
+  const pins = [
+    {e:'🐕', l:22, t:30},{e:'🐩', l:74, t:26},{e:'🐈', l:34, t:68},{e:'🦮', l:80, t:66}
+  ].map(p=>`<div class="pin" style="left:${p.l}%;top:${p.t}%"><span>${p.e}</span></div>`).join('');
+  return `
+    <div class="mapcard">
+      <div class="grid"></div>
+      <div class="road" style="left:0;right:0;top:46%;height:7px"></div>
+      <div class="road" style="top:0;bottom:0;left:48%;width:7px"></div>
+      ${pins}
+      <div class="pin me" style="left:48%;top:46%"><span>📍</span></div>
+    </div>
+    <div class="sec-title">附近 ${friends.length} 位宠友 · 按距离排序</div>
+    ${friends.map((f,i)=>friendCardHTML(f,i)).join('')}
+  `;
+}
+
+function nearbyCareView(){
+  if(state.nearbyLoading){
+    return `<div class="match-loading"><div class="spinner"></div>正在匹配附近服务者…</div>`;
+  }
+  let list = caregiversAll.slice();
+  const seed = careMatchSeed || 1;
+  list.sort((a,b)=>{
+    const sa = a.score*10 - a.dist*2 + ((a.name.charCodeAt(0)*seed)%5)*0.3;
+    const sb = b.score*10 - b.dist*2 + ((b.name.charCodeAt(0)*seed)%5)*0.3;
+    return sb - sa;
+  });
+  if(currentCareFilter !== 'all') list = list.filter(c=>c.type===currentCareFilter);
+  const cards = list.map(c=>`
+    <div class="caregiver">
+      <div class="cg-avatar">${c.emoji}<span class="badge">${c.badge}</span></div>
+      <div class="cg-main">
+        <div class="cg-name">${c.name} <span class="cg-star">★ ${c.score}</span></div>
+        <div class="cg-sub">${c.service} · 距你 ${c.dist}km</div>
+        <div class="cg-price">${c.price}</div>
+        <div class="cg-tags">${c.tags.map(t=>`<span class="cg-tag">${t}</span>`).join('')}</div>
+      </div>
+      <button class="cg-btn" data-act="openHandover">交接卡</button>
+    </div>`).join('');
+  const filterChips = [['all','全部'],['feed','上门喂养'],['walk','遛狗'],['cat','猫咪专长']]
+    .map(([k,v])=>`<button class="chip ${currentCareFilter===k?'active':''}" data-act="careFilter" data-f="${k}">${v}</button>`).join('');
+  return `
+    <div class="card" style="background:linear-gradient(135deg,#EAF1FF,#DDE8FF);box-shadow:none;margin-bottom:14px">
+      <div style="display:flex;gap:11px;align-items:flex-start">
+        <div style="font-size:20px">📋</div>
+        <div style="font-size:12.5px;line-height:1.65;color:#3A5A8A">
+          <b style="color:#2B4A7A">为什么做交接卡？</b><br>
+          节假日上门喂养最大的痛点是"信息不对称 + 责任不清"。把宠物的喂食、忌口、应急处理结构化，服务者一看就懂。
+        </div>
+      </div>
+    </div>
+    <div class="chips" style="padding-bottom:12px">${filterChips}</div>
+    <div class="sec-title">已匹配 ${list.length} 位服务者 · 已实名</div>
+    ${cards}
+  `;
+}
+
+function nearbyView(){
+  return `
+    <div class="loc-bar">
+      <div class="loc">📍 成都市 · 高新区</div>
+      <button class="switch" data-act="loc">切换位置</button>
+    </div>
+    <div class="chips" style="padding-bottom:14px">
+      <button class="chip ${state.nearbyMode==='friends'?'active':''}" data-act="nearbyMode" data-m="friends">宠友</button>
+      <button class="chip ${state.nearbyMode==='care'?'active':''}" data-act="nearbyMode" data-m="care">照护服务</button>
+    </div>
+    ${state.nearbyMode==='care' ? nearbyCareView() : nearbyFriendsView()}
+  `;
+}
+
+function commentItemHTML(c){
+  return `<div class="comment-item">
+    <div class="c-avatar">${c.avatar}</div>
+    <div class="c-main">
+      <div class="c-user">${esc(c.user)}</div>
+      <div class="c-text">${esc(c.text)}</div>
+      <div class="c-time">${esc(c.time)}</div>
+    </div>
+  </div>`;
+}
+
+function communityView(){
+  const p = currentPet();
+  const topics = [
+    {tag:'all', label:'全部话题', icon:'✨'},
+    {tag:'#行为矫正', label:'#行为矫正', icon:'🐾'},
+    {tag:'#泌尿健康', label:'#泌尿健康', icon:'🚽'},
+    {tag:'#老龄护理', label:'#老龄护理', icon:'🦴'},
+    {tag:'#呕吐求助', label:'#呕吐求助', icon:'🤢'}
+  ];
+  const topicHTML = topics.map(t=>`<button class="chip ${state.topicFilter===t.tag?'active':''}" data-act="topic" data-tag="${t.tag}">${t.icon} ${t.label}</button>`).join('');
+
+  // 过滤帖子
+  let displayPosts = posts;
+  if(state.topicFilter !== 'all'){
+    const kw = state.topicFilter.replace('#','');
+    displayPosts = posts.filter(post => post.tags.some(t => t.includes(kw)));
+  }
+
+  const listHTML = displayPosts.length ? displayPosts.map(post=>{
+    const i = posts.indexOf(post);
+    const cCount = post.commentsList.length;
+    const commentsHTML = post.commentsList.length
+      ? post.commentsList.map(commentItemHTML).join('')
+      : `<div class="comment-empty">还没有评论，来说两句吧</div>`;
+    return `
+      <div class="post" id="${post.id}">
+        <div class="post-head">
+          <div class="post-avatar">${post.avatar}</div>
+          <div>
+            <div class="post-user">${post.user} <span style="font-weight:400;color:var(--muted);font-size:11px">· ${post.pet}</span></div>
+            <div class="post-time">${post.time}</div>
+          </div>
+        </div>
+        <div class="post-text">${esc(post.text)}</div>
+        <div class="post-img">${post.emoji}</div>
+        <div class="post-tags">${post.tags.map(t=>`<span class="post-tag">${t}</span>`).join('')}</div>
+        <div class="post-actions">
+          <button class="act ${post.liked?'liked':''}" data-act="like" data-i="${i}">${post.liked?'❤️':'🤍'} <span>${post.likes}</span></button>
+          <button class="act" data-act="toggleComments" data-post="${post.id}">💬 <span id="comment-count-${post.id}">${cCount}</span></button>
+        </div>
+        <div class="post-comments" id="comments-${post.id}">
+          <div id="comment-list-${post.id}">${commentsHTML}</div>
+          <div class="comment-input-row">
+            <input type="text" id="comment-input-${post.id}" placeholder="写评论…" autocomplete="off">
+            <button class="comment-send" data-act="sendComment" data-post="${post.id}">发送</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('') : `<div class="empty"><span class="e">💬</span>这个话题下还没有帖子</div>`;
+
+  return `
+    <div class="composer" data-act="add">
+      <div class="composer-avatar">${p.emoji}</div>
+      <div class="composer-input">分享 ${p.name} 的日常…</div>
+      <button class="composer-btn">发布</button>
+    </div>
+    <div class="sec-title">热门话题</div>
+    <div class="chips" style="padding-bottom:6px">${topicHTML}</div>
+    <div class="sec-title">成都 · 高新区 宠友圈${state.topicFilter!=='all'?' · '+state.topicFilter:''}</div>
+    ${listHTML}
+  `;
+}
+
+function tabbarHTML(){
+  const tabs = [['timeline','成长'],['health','健康'],['nearby','附近'],['community','社区']];
+  return tabs.map(([k,v])=>`
+    <button class="tab ${state.tab===k?'active':''}" data-act="tab" data-t="${k}">
+      ${ICONS[k]}<span>${v}</span>
+    </button>`).join('');
+}
+
+function addSheetHTML(){
+  if(!draftType){
+    const types = [['weight','⚖️','记体重'],['daily','📷','日常'],['milestone','🏆','里程碑'],['vaccine','💉','疫苗'],['deworm','🐛','驱虫']];
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <h4 class="sheet-title">添加记录</h4>
+        <p class="sheet-sub">为 ${currentPet().name} 记录成长瞬间</p>
+        <div class="type-grid">
+          ${types.map(([k,e,n])=>`<button class="type-btn" data-act="pickType" data-k="${k}"><i>${e}</i>${n}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+  if(draftType==='weight'){
+    const petPicker = state.pets.map(p=>`
+      <button class="pp-btn ${draftPetId===p.id?'on':''}" data-act="pickPet" data-id="${p.id}" title="${p.name}">
+        ${p.photo?`<img src="${p.photo}">`:p.emoji}
+      </button>`).join('');
+    const targetPet = state.pets.find(x=>x.id===draftPetId) || currentPet();
+    const preview = draftPhoto
+      ? `<img src="${draftPhoto.url}">`
+      : (targetPet.photo ? `<img src="${targetPet.photo}">` : targetPet.emoji);
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <button class="triage-back" data-act="backType">← 返回</button>
+        <h4 class="sheet-title">记体重</h4>
+        <p class="sheet-sub">记录今天的体重，和宠物一起长大</p>
+        <div class="photo-upload" data-act="uploadPhoto">
+          <div class="pu-preview">${preview}</div>
+          <div class="pu-text">📷 上传宠物照片（自动抠图）</div>
+          <div class="pu-hint">支持 JPG/PNG，建议正面清晰照</div>
+          <div class="cut-progress" id="cutProgress" style="display:none"><div class="sp"></div>正在抠图…</div>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" style="display:none">
+        <div class="pet-picker">${petPicker}</div>
+        <div class="big-kg">
+          <input id="inpKg" type="number" step="0.1" inputmode="decimal" placeholder="0.0" value="${draftKg}" autocomplete="off">
+          <span class="bk-unit">kg</span>
+        </div>
+        <div class="field-row">
+          <div class="field" style="margin-top:6px"><label>日期</label><input id="inpDate" type="date" value="${draftDate}"></div>
+          <div class="field" style="margin-top:6px"><label>时间</label><input id="inpTime" type="time" value="${draftTime}"></div>
+        </div>
+        <div class="field">
+          <label>想说的话</label>
+          <input id="inpNote" type="text" placeholder="例如：这一天库库就是长肉" value="${esc(draftNote)}" autocomplete="off">
+        </div>
+        <button class="save-btn" data-act="saveWeight">记下</button>
+      </div>`;
+  }
+  // 日常 / 里程碑 / 疫苗 / 驱虫 —— 支持可选上传照片
+  const ph = {daily:'例如：今天学会了握手！', milestone:'例如：第一次接住飞盘', vaccine:'例如：接种狂犬疫苗', deworm:'例如：体外驱虫 · 福来恩'}[draftType] || '写点什么…';
+  const title = {daily:'记录日常', milestone:'记录里程碑', vaccine:'记录疫苗', deworm:'记录驱虫'}[draftType] || '记录';
+  const tp = currentPet();
+  const preview = draftPhoto
+    ? `<img src="${draftPhoto.url}">`
+    : (tp.photo ? `<img src="${tp.photo}">` : tp.emoji);
+  return `
+    <div class="sheet-mask" data-act="closeSheet"></div>
+    <div class="sheet-body">
+      <button class="triage-back" data-act="backType">← 返回</button>
+      <h4 class="sheet-title">${title}</h4>
+      <p class="sheet-sub">为 ${tp.name} 记录</p>
+      <div class="photo-upload" data-act="uploadPhoto">
+        <div class="pu-preview">${preview}</div>
+        <div class="pu-text">📷 上传照片（可选）</div>
+        <div class="pu-hint">选填，加上照片会更有纪念意义</div>
+        <div class="cut-progress" id="cutProgress" style="display:none"><div class="sp"></div>正在抠图…</div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none">
+      <div class="field"><label>内容</label><input id="inp" type="text" placeholder="${ph}" autocomplete="off"></div>
+      <button class="save-btn" data-act="saveSimple">保存记录</button>
+    </div>`;
+}
+
+function petSheetHTML(){
+  return `
+    <div class="sheet-mask" data-act="closeSheet"></div>
+    <div class="sheet-body">
+      <h4 class="sheet-title">切换宠物</h4>
+      <p class="sheet-sub">所有记录与档案会跟着宠物一起切换</p>
+      ${state.pets.map(p=>{
+        const ws = weightRecords(p);
+        const w = ws.length ? ws[ws.length-1].kg : '—';
+        return `
+          <div class="pet-opt ${p.id===state.currentId?'on':''}" data-act="selectPet" data-id="${p.id}">
+            <div class="pa">${p.photo?`<img src="${p.photo}">`:p.emoji}</div>
+            <div>
+              <div class="pn">${p.name}${isSenior(p)?' <span style="font-size:10px;color:#7C6BE0;font-weight:600">老年</span>':''}</div>
+              <div class="ps">${p.breed} · ${ageText(p.birth)} · ${w}kg</div>
+            </div>
+            ${p.id===state.currentId?'<div class="check">✓</div>':''}
+          </div>`;
+      }).join('')}
+      <button class="save-btn" data-act="addPet" style="background:var(--bg);color:var(--ink);box-shadow:none">＋ 添加新宠物</button>
+    </div>`;
+}
+
+function triageHTML(){
+  if(!triage) return '';
+  if(triage.step===0){
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <button class="triage-back" data-act="closeSheet">← 关闭</button>
+        <h4 class="sheet-title">症状自查</h4>
+        <p class="sheet-sub">为 ${currentPet().name} 选择最接近的系统</p>
+        <div class="triage-progress"><div class="tp-seg on"></div><div class="tp-seg"></div><div class="tp-seg"></div><div class="tp-seg"></div></div>
+        <div class="type-grid">
+          ${TRIAGE_SYSTEMS.map(s=>`<button class="type-btn" data-act="triageSystem" data-id="${s.id}"><i>${s.icon}</i>${s.label}</button>`).join('')}
+        </div>
+        <div class="triage-note">⚠️ 本工具不替代兽医诊断，仅提供判断参考</div>
+      </div>`;
+  }
+  if(triage.step===1){
+    const sys = TRIAGE_SYSTEMS.find(s=>s.id===triage.system);
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <button class="triage-back" data-act="triageBack">← 上一步</button>
+        <h4 class="sheet-title">${sys.icon} ${sys.label}</h4>
+        <p class="sheet-sub">选择最接近的症状</p>
+        <div class="triage-progress"><div class="tp-seg on"></div><div class="tp-seg on"></div><div class="tp-seg"></div><div class="tp-seg"></div></div>
+        ${sys.symptoms.map(s=>`<button class="triage-opt" data-act="triageSymptom" data-id="${s.id}"><span>${s.label}</span><span class="to-arrow">›</span></button>`).join('')}
+        <div class="triage-note">⚠️ 本工具不替代兽医诊断</div>
+      </div>`;
+  }
+  if(triage.step===2){
+    const q = TRIAGE_QS[triage.qIndex];
+    const progress = [1,2,3,4].map(i=>`<div class="tp-seg ${i<=triage.qIndex+1?'on':''}"></div>`).join('');
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <button class="triage-back" data-act="triageBack">← 上一步</button>
+        <h4 class="sheet-title">问题 ${triage.qIndex+1} / ${TRIAGE_QS.length}</h4>
+        <div class="triage-progress">${progress}</div>
+        <p class="triage-q">${q.q}</p>
+        <p class="triage-hint">${q.hint}</p>
+        ${q.opts.map((o,i)=>`<button class="triage-opt" data-act="triageAnswer" data-i="${i}"><span class="to-emoji">${o.emoji}</span><span>${o.t}</span><span class="to-arrow">›</span></button>`).join('')}
+        <div class="triage-note">⚠️ 本工具不替代兽医诊断</div>
+      </div>`;
+  }
+  if(triage.step===3){
+    const info = SYMPTOM_INFO[triage.symptom] || {ai:'请尽快咨询兽医。', tagMatch:[]};
+    const score = triage.answers.reduce((a,ans)=>a + TRIAGE_QS[ans.qIdx].opts[ans.optIdx].w, 0);
+    let level = 'green';
+    if(score>=6) level='red'; else if(score>=3) level='yellow';
+    const levelMap = {
+      green:{icon:'🟢',title:'居家观察',sub:'暂无紧急信号，可先在家护理观察'},
+      yellow:{icon:'🟡',title:'建议 24h 内就诊',sub:'有需要关注的表现，建议尽快预约'},
+      red:{icon:'🔴',title:'请立即就医',sub:'存在危险信号，请马上联系医院或急诊'}
+    };
+    const L = levelMap[level];
+    const matched = posts.filter(p=>p.tags.some(t=>info.tagMatch.some(m=>t.includes(m)))).slice(0,3);
+    const caseBlock = matched.length ? `
+      <div class="case-title">相似案例 <span>点击查看完整帖子</span></div>
+      ${matched.map(post=>`
+        <button class="case-card" data-act="goPost" data-post="${post.id}">
+          <div class="case-avatar">${post.avatar}</div>
+          <div class="case-main">
+            <div class="case-user">${post.user} <span class="cu-pet">· ${post.pet}</span></div>
+            <div class="case-text">${esc(post.text)}</div>
+          </div>
+          <div class="case-go">›</div>
+        </button>`).join('')}
+    ` : '';
+    return `
+      <div class="sheet-mask" data-act="closeSheet"></div>
+      <div class="sheet-body">
+        <button class="triage-back" data-act="closeSheet">← 关闭</button>
+        <h4 class="sheet-title">分诊结果</h4>
+        <p class="sheet-sub">基于 ${currentPet().name} 的品种、年龄与你的回答</p>
+        <div class="result-light ${level}">
+          <div class="rl-icon">${L.icon}</div>
+          <div><div class="rl-title">${L.title}</div><div class="rl-sub">${L.sub}</div></div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-head"><div class="ai-icon">✨</div><div class="ai-title">AI 解读</div></div>
+          <div class="ai-body">${info.ai}</div>
+        </div>
+        ${caseBlock}
+        <div class="triage-note" style="margin-top:18px">⚠️ 本工具不替代兽医诊断，案例仅供参考<br>如情况紧急，请直接联系宠物医院</div>
+      </div>`;
+  }
+  return '';
+}
+
+function handoverHTML(){
+  const p = state.pets.find(x=>x.id===handoverPetId) || currentPet();
+  const d = db[p.id];
+  const ws = weightRecords(p);
+  const lastW = ws.length ? ws[ws.length-1].kg : '—';
+  const lastVac = d.vaccines[0];
+  const nextDeworm = d.deworm.find(x=>x.next);
+  const dewormLeft = nextDeworm ? Math.max(0,Math.round((nextDeworm.next-today)/DAY)) : null;
+  const feeds = {p1:'每日 2 餐，每餐 80g 干粮 + 少量湿粮', p2:'每日 3 餐，每餐 35g 主食罐 + 干粮自助', p3:'每日 2 餐，每餐 120g 老年犬粮 + 关节保健品'};
+  const avoid = {p1:'不吃洋葱、巧克力、葡萄；对鸡肉轻微过敏', p2:'不吃牛奶、生鸡蛋；挑食，需拌少量冻干', p3:'不吃鸡骨、肥肉；控制盐分'};
+  const habits = {p1:'必须有人陪着才吃饭，怕打雷', p2:'喜欢被摸下巴，不喜欢抱', p3:'上下楼梯需搀扶，慢走不超过 20 分钟'};
+  const emergency = {p1:'若呕吐先禁食 4 小时，喂温水；超过 2 次联系我', p2:'若 24h 不进食立即联系我，猫不能长时间空腹', p3:'若关节突然不能站立，不要搬动，立即联系兽医'};
+  return `
+    <div class="sheet-mask" data-act="closeSheet"></div>
+    <div class="sheet-body">
+      <button class="triage-back" data-act="closeSheet">← 关闭</button>
+      <div class="handover-hero">
+        <h4>${p.emoji} ${p.name} · 交接卡</h4>
+        <p>把下面这张卡发给服务者，信息一次到位</p>
+      </div>
+      <div class="ho-row"><div class="ho-icon">⚖️</div><div class="ho-main"><div class="ho-label">当前体重</div><div class="ho-value">${lastW} kg · ${ageText(p.birth)}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">🍚</div><div class="ho-main"><div class="ho-label">喂食量</div><div class="ho-value">${feeds[p.id]||'每日 2 餐'}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">🚫</div><div class="ho-main"><div class="ho-label">忌口</div><div class="ho-value">${avoid[p.id]||'按平时习惯'}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">💉</div><div class="ho-main"><div class="ho-label">疫苗状态</div><div class="ho-value">${lastVac?`${lastVac.name} · ${fmtYMD(lastVac.date)} 已完成`:'暂无记录'}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">🐛</div><div class="ho-main"><div class="ho-label">驱虫状态</div><div class="ho-value">${dewormLeft!==null?`距下次驱虫 ${dewormLeft} 天`:'已完成'}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">📞</div><div class="ho-main"><div class="ho-label">紧急联系人</div><div class="ho-value">主人 138-0000-0000 · 备用 139-0000-0000</div></div></div>
+      <div class="ho-row"><div class="ho-icon">🏥</div><div class="ho-main"><div class="ho-label">兽医电话</div><div class="ho-value">康宁宠物医院 · 028-8888-8888 · 24h 急诊</div></div></div>
+      <div class="ho-row"><div class="ho-icon">📹</div><div class="ho-main"><div class="ho-label">摄像头权限</div><div class="ho-value">客厅摄像头已开启 · 服务者可临时查看</div></div></div>
+      <div class="ho-row"><div class="ho-icon">💛</div><div class="ho-main"><div class="ho-label">特殊习惯</div><div class="ho-value">${habits[p.id]||'无'}</div></div></div>
+      <div class="ho-row"><div class="ho-icon">🚨</div><div class="ho-main"><div class="ho-label">应急处理</div><div class="ho-value">${emergency[p.id]||'如有异常立即联系我'}</div></div></div>
+      <button class="save-btn" data-act="copyHandover" style="margin-top:20px;background:var(--primary);box-shadow:0 8px 20px rgba(255,122,89,.34)">复制交接卡文本</button>
+    </div>`;
+}
+
+function renderSheet(){
+  const el = document.getElementById('sheet');
+  if(!sheet){ el.classList.remove('open'); el.innerHTML=''; return; }
+  let html = '';
+  if(sheet==='add') html = addSheetHTML();
+  else if(sheet==='pet') html = petSheetHTML();
+  else if(sheet==='triage') html = triageHTML();
+  else if(sheet==='handover') html = handoverHTML();
+  el.innerHTML = html;
+  requestAnimationFrame(()=>el.classList.add('open'));
+  if(draftType==='weight') setTimeout(()=>{ const i=document.getElementById('inpKg'); if(i) i.focus(); }, 320);
+  else if(draftType) setTimeout(()=>{ const i=document.getElementById('inp'); if(i) i.focus(); }, 320);
+}
+
+function render(){
+  document.getElementById('topbar').innerHTML = topbarHTML();
+  document.getElementById('tabbar').innerHTML = tabbarHTML();
+  const view = document.getElementById('view');
+  view.innerHTML = state.tab==='timeline' ? timelineView()
+                 : state.tab==='health'   ? healthView()
+                 : state.tab==='nearby'   ? nearbyView()
+                 : communityView();
+  view.scrollTop = 0;
+  renderSheet();
+}
+
+function goToPost(postId){
+  sheet = null; triage = null; draftType = null;
+  state.topicFilter = 'all'; // 确保目标帖子可见
+  state.tab = 'community';
+  render();
+  setTimeout(()=>{
+    const el = document.getElementById(postId);
+    if(el){
+      el.scrollIntoView({behavior:'smooth', block:'center'});
+      el.classList.add('flash');
+      setTimeout(()=>el.classList.remove('flash'), 2600);
+    }
+  }, 180);
+}
+
+async function handlePhotoUpload(file){
+  const prog = document.getElementById('cutProgress');
+  const preview = document.querySelector('.pu-preview');
+  if(prog) prog.style.display = 'flex';
+  try{
+    if(removeBgFn && removeBgState==='ready'){
+      const blob = await removeBgFn(file);
+      const url = URL.createObjectURL(blob);
+      draftPhoto = {url, cut:true};
+    } else {
+      const dataUrl = await fileToDataURL(file);
+      draftPhoto = {url:dataUrl, cut:false};
+    }
+    if(preview) preview.innerHTML = `<img src="${draftPhoto.url}">`;
+  }catch(e){
+    const dataUrl = await fileToDataURL(file);
+    draftPhoto = {url:dataUrl, cut:false};
+    if(preview) preview.innerHTML = `<img src="${draftPhoto.url}">`;
+  } finally {
+    if(prog) prog.style.display = 'none';
+  }
+}
+
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-act]');
+  if(!el) return;
+  const act = el.dataset.act;
+
+  if(act==='tab'){ state.tab = el.dataset.t; render(); }
+  else if(act==='growthView'){ state.growthView = el.dataset.v; render(); }
+  else if(act==='gotoGrowth'){ state.tab='timeline'; state.growthView='chart'; render(); }
+  else if(act==='add'){
+    sheet='add'; draftType=null; draftPhoto=null; draftKg=''; draftNote=''; draftPetId=state.currentId;
+    draftDate = fmtYMD(new Date()); draftTime = new Date().toTimeString().slice(0,5);
+    renderSheet();
+  }
+  else if(act==='switchPet'){ sheet='pet'; renderSheet(); }
+  else if(act==='closeSheet'){ sheet=null; draftType=null; triage=null; draftPhoto=null; renderSheet(); }
+  // 切换记录类型时重置照片
+  else if(act==='pickType'){ draftType = el.dataset.k; draftPhoto=null; renderSheet(); }
+  else if(act==='backType'){ draftType = null; draftPhoto=null; renderSheet(); }
+  else if(act==='pickPet'){ draftPetId = el.dataset.id; renderSheet(); }
+  else if(act==='uploadPhoto'){ e.preventDefault(); const inp = document.getElementById('photoInput'); if(inp) inp.click(); }
+  else if(act==='selectPet'){ state.currentId = el.dataset.id; lifeDraft = null; sheet=null; render(); }
+  else if(act==='addPet'){
+    const n = state.pets.length+1;
+    const np = {id:'p'+n, name:'新宠物', breed:'待填写', emoji:'🐾', gender:'—', birth:daysAgo(30), photo:null};
+    state.pets.push(np);
+    db[np.id] = {records:[], vaccines:[], deworm:[], lifeScores:null};
+    state.currentId = np.id; lifeDraft = null; sheet=null; render();
+  }
+  else if(act==='saveWeight'){
+    const kgEl = document.getElementById('inpKg');
+    const noteEl = document.getElementById('inpNote');
+    const dateEl = document.getElementById('inpDate');
+    const timeEl = document.getElementById('inpTime');
+    const kg = parseFloat(kgEl.value);
+    if(!kg || kg<=0){ kgEl.focus(); return; }
+    const note = noteEl.value.trim();
+    const dstr = dateEl.value || fmtYMD(new Date());
+    const dateObj = new Date(dstr+'T'+(timeEl.value||'12:00')+':00');
+    const d = db[draftPetId];
+    d.records.push({
+      id:uid(), type:'weight', date:dateObj, kg:+kg.toFixed(1),
+      photo: draftPhoto ? draftPhoto.url : null,
+      title: `${kg.toFixed(1)}kg${note?' · '+note:''}`,
+      desc: note || ''
+    });
+    const targetPet = state.pets.find(p=>p.id===draftPetId);
+    if(draftPhoto && !targetPet.photo){ targetPet.photo = draftPhoto.url; }
+    sheet=null; draftType=null; draftPhoto=null; draftKg=''; draftNote='';
+    render();
+  }
+  else if(act==='saveSimple'){
+    const inp = document.getElementById('inp');
+    if(!inp) return;
+    const txt = inp.value.trim();
+    if(!txt){ inp.focus(); return; }
+    const d = db[state.currentId];
+    d.records.push({
+      id:uid(), type:draftType, date:new Date(), title:txt, desc:'',
+      photo: draftPhoto ? draftPhoto.url : null
+    });
+    const tp = currentPet();
+    if(draftPhoto && !tp.photo){ tp.photo = draftPhoto.url; }
+    sheet=null; draftType=null; draftPhoto=null;
+    render();
+  }
+  // ===== 点赞：DOM 局部更新，不重新渲染（不跳顶部） =====
+  else if(act==='like'){
+    const i = +el.dataset.i;
+    const post = posts[i];
+    post.liked = !post.liked;
+    post.likes += post.liked ? 1 : -1;
+    el.classList.toggle('liked', post.liked);
+    const span = el.querySelector('span');
+    if(span) span.textContent = post.likes;
+    el.innerHTML = `${post.liked?'❤️':'🤍'} <span>${post.likes}</span>`;
+    el.classList.toggle('liked', post.liked);
+  }
+  // ===== 切换评论区展开/收起 =====
+  else if(act==='toggleComments'){
+    const postId = el.dataset.post;
+    const box = document.getElementById('comments-'+postId);
+    if(box){
+      box.classList.toggle('open');
+      if(box.classList.contains('open')){
+        const inp = document.getElementById('comment-input-'+postId);
+        if(inp) setTimeout(()=>inp.focus(), 80);
+      }
+    }
+  }
+  // ===== 发送评论 =====
+  else if(act==='sendComment'){
+    const postId = el.dataset.post;
+    const post = posts.find(p=>p.id===postId);
+    if(!post) return;
+    const inp = document.getElementById('comment-input-'+postId);
+    if(!inp) return;
+    const txt = inp.value.trim();
+    if(!txt){ inp.focus(); return; }
+    const newC = {user:'我', avatar:'🙋', text:txt, time:'刚刚'};
+    post.commentsList.push(newC);
+    const list = document.getElementById('comment-list-'+postId);
+    if(list){
+      const emptyEl = list.querySelector('.comment-empty');
+      if(emptyEl) emptyEl.remove();
+      const div = document.createElement('div');
+      div.innerHTML = commentItemHTML(newC);
+      list.appendChild(div.firstElementChild);
+    }
+    inp.value = '';
+    const countEl = document.getElementById('comment-count-'+postId);
+    if(countEl) countEl.textContent = post.commentsList.length;
+    inp.focus();
+  }
+  else if(act==='hello'){
+    const i = +el.dataset.i;
+    friends[i].hello = !friends[i].hello;
+    el.classList.toggle('done', friends[i].hello);
+    el.textContent = friends[i].hello ? '已打招呼' : '打招呼';
+  }
+  else if(act==='viewDaily'){
+    const f = friends[+el.dataset.i];
+    if(f.postIds.length){ goToPost(f.postIds[f.postIds.length-1]); }
+  }
+  else if(act==='nearbyMode'){
+    state.nearbyMode = el.dataset.m;
+    if(state.nearbyMode==='care' && !state.nearbyLoading){
+      state.nearbyLoading = true;
+      careMatchSeed = Math.floor(Math.random()*100)+1;
+      render();
+      setTimeout(()=>{ state.nearbyLoading=false; render(); }, 1000);
+      return;
+    }
+    render();
+  }
+  else if(act==='careFilter'){ currentCareFilter = el.dataset.f; render(); }
+  else if(act==='loc'){ el.textContent = el.textContent==='切换位置' ? '定位中…' : '切换位置'; setTimeout(()=>render(), 700); }
+  // ===== 话题筛选 =====
+  else if(act==='topic'){
+    state.topicFilter = el.dataset.tag;
+    state.tab = 'community';
+    render();
+  }
+  else if(act==='openTriage'){ triage = {step:0, system:null, symptom:null, qIndex:0, answers:[]}; sheet='triage'; renderSheet(); }
+  else if(act==='triageSystem'){ triage.system = el.dataset.id; triage.step=1; renderSheet(); }
+  else if(act==='triageSymptom'){ triage.symptom = el.dataset.id; triage.step=2; triage.qIndex=0; triage.answers=[]; renderSheet(); }
+  else if(act==='triageAnswer'){
+    const oi = +el.dataset.i;
+    triage.answers.push({qIdx:triage.qIndex, optIdx:oi});
+    if(triage.qIndex < TRIAGE_QS.length-1){ triage.qIndex++; renderSheet(); }
+    else { triage.step=3; renderSheet(); }
+  }
+  else if(act==='triageBack'){
+    if(triage.step===0){ sheet=null; triage=null; renderSheet(); }
+    else if(triage.step===1){ triage.step=0; triage.system=null; renderSheet(); }
+    else if(triage.step===2){
+      if(triage.qIndex===0){ triage.step=1; triage.symptom=null; }
+      else { triage.qIndex--; triage.answers.pop(); }
+      renderSheet();
+    }
+    else if(triage.step===3){ triage.step=2; triage.qIndex=TRIAGE_QS.length-1; renderSheet(); }
+  }
+  else if(act==='goPost'){ goToPost(el.dataset.post); }
+  else if(act==='saveLifeScore'){
+    const p = currentPet(); const d = db[p.id];
+    if(!d.lifeScores) d.lifeScores = [];
+    d.lifeScores.push({date:new Date(today), scores:[...lifeDraft]});
+    const total = lifeDraft.reduce((a,b)=>a+b,0);
+    const labels = ['疼痛','食欲','活动','情绪','睡眠'];
+    d.records.unshift({id:uid(), type:'health', date:new Date(today), title:`生活质量评分 ${total}/25`, desc:labels.map((l,i)=>l+' '+lifeDraft[i]).join(' · '), photo:null});
+    render();
+  }
+  else if(act==='openHandover'){ handoverPetId = state.currentId; sheet='handover'; renderSheet(); }
+  else if(act==='copyHandover'){
+    const p = currentPet();
+    const txt = `【${p.name} · 交接卡】\n喂食量 / 忌口 / 疫苗 / 驱虫 / 紧急联系人 / 兽医电话 / 摄像头权限 / 特殊习惯 / 应急处理 —— 已生成`;
+    const done = ()=>{ const b = document.querySelector('[data-act="copyHandover"]'); if(b){ b.textContent='已复制 ✓'; setTimeout(()=>{ b.textContent='复制交接卡文本'; }, 1500); } };
+    if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done).catch(done); } else { done(); }
+  }
+});
+
+document.addEventListener('input', e=>{
+  if(e.target && e.target.dataset && e.target.dataset.act === 'scoreChange'){
+    const i = +e.target.dataset.i;
+    lifeDraft[i] = +e.target.value;
+    const el = document.getElementById('score-val-'+i);
+    if(el) el.textContent = e.target.value;
+    const tEl = document.getElementById('score-total');
+    if(tEl) tEl.textContent = lifeDraft.reduce((a,b)=>a+b,0);
+  }
+  if(e.target && e.target.id==='inpKg'){ draftKg = e.target.value; }
+  if(e.target && e.target.id==='inpNote'){ draftNote = e.target.value; }
+  if(e.target && e.target.id==='inpDate'){ draftDate = e.target.value; }
+  if(e.target && e.target.id==='inpTime'){ draftTime = e.target.value; }
+});
+
+document.addEventListener('change', async e=>{
+  if(e.target && e.target.id==='photoInput'){
+    const file = e.target.files && e.target.files[0];
+    if(file) await handlePhotoUpload(file);
+  }
+});
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter'){
+    if(e.target && e.target.id && e.target.id.startsWith('comment-input-')){
+      e.preventDefault();
+      const postId = e.target.id.replace('comment-input-','');
+      const btn = document.querySelector(`[data-act="sendComment"][data-post="${postId}"]`);
+      if(btn) btn.click();
+      return;
+    }
+    if(e.target && e.target.id==='inp'){ const btn = document.querySelector('[data-act="saveSimple"]'); if(btn) btn.click(); }
+    if(e.target && e.target.id==='inpKg'){ const btn = document.querySelector('[data-act="saveWeight"]'); if(btn) btn.click(); }
+  }
+});
+
+render();
+</script>
+</body>
+</html>
